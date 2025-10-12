@@ -101,7 +101,7 @@
       // document.getElementById("age").innerHTML = getValue(jsonResult, "age");
       document.getElementById("age").innerHTML = jsonResult;
       // document.getElementById("city").innerHTML = getValue(jsonResult, "city");
-      document.getElementById("city").innerHTML = jsonResult.self.stringify();
+      document.getElementById("city").innerHTML = jsonResult.links.self;
       
       async function getWeather(url) {
         try {
@@ -110,44 +110,30 @@
             throw new Error(`Response status: ${response.status}`);
           }
           const result = await response.json();
-          return result.links;
+          return result;
         } 
         catch (error) {
           console.error(error.message);
         }
       }
 
-      async function getValue(jsonResult, valueID) {
-        switch(valueID) {
-          case "tempAPI":
-            return jsonResult.current.temperature_2m;
-            break;
-          case "humidAPI":
-            return jsonResult.current.relative_humidity_2m;
-            break;
-          case "precipAPI":
-            return jsonResult.current.precipitation;
-            break;
-          case "windSpAPI":
-            return jsonResult.current.wind_speed_10m;
-            break;
-          case "windGuAPI":
-            return jsonResult.current.wind_gusts_10m;
-            break;
-          case "windDiAPI":
-            return jsonResult.current.wind_direction_10m;
-            break;
-          case "name":
-            return jsonResult.name;
-            break;
-          case "age":
-            return jsonResult.values.age;
-            break;
-          case "city":
-            return jsonResult.values.city;
-            break;
-        }
+      async function getJSON(url) {
+        fetch(url)
+          .then(response => response.json())
+          .then(jsonResult => {
+        // Check the whole structure
+        console.log(jsonResult);
+    
+        // Access nested object safely
+        const selfLink = jsonResult.links.self;
+        console.log(selfLink);
+    
+        // Update your HTML element
+        document.getElementById("city").innerHTML = selfLink;
+        })
+        .catch(error => console.error('Error:', error));
       }
+      
     </script>
     <h2>Weather Forcast</h2>
     <a class="weatherwidget-io" href="https://forecast7.com/en/51d796d13/kleve/" data-label_1="KLEVE" data-label_2="WEATHER" data-icons="Climacons" data-days="3" data-theme="original" >KLEVE WEATHER</a>
