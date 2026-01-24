@@ -76,12 +76,12 @@
     <h2>Current weather</h2>
     <div id="liveWeather">
       <!-- <p>current country: <div id="country"></div> </p> -->
-      <p>Temperature: </p><p id="tempAPI"></p><p>&deg;C</p>
-      <p>Relative Humidity: </p><p id="humidAPI"></p><p>%</p>
-      <p>Precipitations: </p><p id="precipAPI"></p><p>mm</p>
-      <p>Wind Speed: </p><p id="windSpAPI"></p><p>km/h</p>
-      <p>Wind Gusts: </p><p id="windGuAPI"></p><p>km/h</p>
-      <p>Wind direction: </p><p id="windDiAPI"></p><p>&deg;</p>
+      <p>Temperature: <div id="tempAPI"></div>&deg;C</p>
+      <p>Relative Humidity: <div id="humidAPI"></div>%</p>
+      <p>Precipitations: <div id="precipAPI"></div> mm</p>
+      <p>Wind Speed: <div id="windSpAPI"></div> km/h</p>
+      <p>Wind Gusts: <div id="windGuAPI"></div> km/h</p>
+      <p>Wind direction: <div id="windDiAPI"></div> &deg;</p>
     </div>
     <script>
       // const url = "https://api.country.is/";
@@ -89,25 +89,16 @@
       // let jsonResult = getWeather(url);
       // let jsonResult = fetch(url).json();
       getAndSet(url);
-      // document.getElementById("tempAPI").innerHTML = getValue(jsonResult, "tempAPI");
-      // document.getElementById("humidAPI").innerHTML = getValue(jsonResult, "humidAPI");
-      // document.getElementById("precipAPI").innerHTML = getValue(jsonResult, "precipAPI");
-      // document.getElementById("windSpAPI").innerHTML = getValue(jsonResult, "windSpAPI");
-      // document.getElementById("windGuAPI").innerHTML = getValue(jsonResult, "windGuAPI");
-      // document.getElementById("windDiAPI").innerHTML = getValue(jsonResult, "windDiAPI");
-      
-      // document.getElementById("name").innerHTML = getValue(jsonResult, "name");
-      // document.getElementById("name").innerHTML = jsonResult.data[1];
-      // document.getElementById("age").innerHTML = getValue(jsonResult, "age");
-      // document.getElementById("age").innerHTML = jsonResult;
-      // document.getElementById("city").innerHTML = getValue(jsonResult, "city");
-      // document.getElementById("city").innerHTML = jsonResult.links.self;
 
       async function getAndSet(url) {
         let myObject = await fetch(url);
         let myText = await myObject.json();
-        document.getElementById("tempAPI").innerHTML = myText.latitude;
-        document.getElementById("humidAPI").innerHTML = myText.longitude;
+        document.getElementById("tempAPI").innerHTML = myText.current.temperature_2m;
+        document.getElementById("humidAPI").innerHTML = myText.current.relative_humidity_2m;
+        document.getElementById("precipAPI").innerHTML = myText.current.precipitation;
+        document.getElementById("windSpAPI").innerHTML = myText.current.wind_speed_10m;
+        document.getElementById("windGuAPI").innerHTML = myText.current.wind_gusts_10m;
+        document.getElementById("windDiAPI").innerHTML = myText.current.wind_direction_10m;
       }
       
       async function getWeather(url) {
