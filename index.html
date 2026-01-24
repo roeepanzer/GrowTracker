@@ -75,7 +75,7 @@
   <div id="weather">
     <h2>Current weather</h2>
     <div id="liveWeather">
-      <p>latitude: <div id="latAPI"></div> </p>
+      <p>current country: <div id="country"></div> </p>
       <!-- <p>Temperature: </p><p id="tempAPI"></p><p>&deg;C</p>
       <p>Relative Humidity: </p><p id="humidAPI"></p><p>%</p>
       <p>Precipitations: </p><p id="precipAPI"></p><p>mm</p>
@@ -88,8 +88,7 @@
       // const url = "https://api.open-meteo.com/v1/forecast?latitude=51.793181954585414&longitude=6.159587746646279&hourly=wind_speed_80m,wind_direction_10m,wind_direction_80m,wind_gusts_10m,wind_speed_10m,cloud_cover,precipitation_probability,precipitation&current=wind_speed_10m,wind_direction_10m,wind_gusts_10m,temperature_2m,relative_humidity_2m,precipitation&minutely_15=wind_gusts_10m,precipitation,wind_speed_10m&timezone=Europe%2FBerlin&forecast_days=3";
       // let jsonResult = getWeather(url);
       // let jsonResult = fetch(url).json();
-      let jsonResult = JSON.parse(fetch(url));
-      document.getElementById("latAPI").innerHTML = jsonResult;
+      getAndSet(url);
       // document.getElementById("tempAPI").innerHTML = getValue(jsonResult, "tempAPI");
       // document.getElementById("humidAPI").innerHTML = getValue(jsonResult, "humidAPI");
       // document.getElementById("precipAPI").innerHTML = getValue(jsonResult, "precipAPI");
@@ -103,6 +102,12 @@
       // document.getElementById("age").innerHTML = jsonResult;
       // document.getElementById("city").innerHTML = getValue(jsonResult, "city");
       // document.getElementById("city").innerHTML = jsonResult.links.self;
+
+      async function getAndSet(url) {
+        let myObject = await fetch(url);
+        let myText = await myObject.json();
+        document.getElementById("country").innerHTML = myText.country;
+      }
       
       async function getWeather(url) {
         try {
