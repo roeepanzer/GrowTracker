@@ -83,6 +83,7 @@
       <p>Wind Gusts: <div id="windGuAPI">windgu</div> km/h</p>
       <p>Wind direction: <div id="windDiAPI">winddi</div> &deg;</p>
     </div>
+    
     <script>
       // const url = "https://api.country.is/";
       const url = "https://api.open-meteo.com/v1/forecast?latitude=51.793181954585414&longitude=6.159587746646279&hourly=wind_speed_80m,wind_direction_10m,wind_direction_80m,wind_gusts_10m,wind_speed_10m,cloud_cover,precipitation_probability,precipitation&current=wind_speed_10m,wind_direction_10m,wind_gusts_10m,temperature_2m,relative_humidity_2m,precipitation&minutely_15=wind_gusts_10m,precipitation,wind_speed_10m&timezone=Europe%2FBerlin&forecast_days=3";
@@ -91,14 +92,25 @@
       getAndSet(url);
 
       async function getAndSet(url) {
-        let myObject = await fetch(url);
-        let myText = await myObject.json();
-        document.getElementById("tempAPI").innerHTML = myText.current.temperature_2m;
-        document.getElementById("humidAPI").innerHTML = myText.current.relative_humidity_2m;
-        document.getElementById("precipAPI").innerHTML = myText.current.precipitation;
-        document.getElementById("windSpAPI").innerHTML = myText.current.wind_speed_10m;
-        document.getElementById("windGuAPI").innerHTML = myText.current.wind_gusts_10m;
-        document.getElementById("windDiAPI").innerHTML = myText.current.wind_direction_10m;
+        try{
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+          }
+          let result = await response.json();
+          document.getElementById("tempAPI").innerHTML = result.current.temperature_2m;
+          document.getElementById("humidAPI").innerHTML = result.current.relative_humidity_2m;
+          document.getElementById("precipAPI").innerHTML = result.current.precipitation;
+          document.getElementById("windSpAPI").innerHTML = result.current.wind_speed_10m;
+          document.getElementById("windGuAPI").innerHTML = result.current.wind_gusts_10m;
+          document.getElementById("windDiAPI").innerHTML = result.current.wind_direction_10m;
+        }
+        catch (error) {
+          console.error(error.message);
+        }
+        // let myObject = await fetch(url);
+        // let myText = await myObject.json();
+        
       }
       
       async function getWeather(url) {
@@ -114,25 +126,8 @@
           console.error(error.message);
         }
       }
-
-      async function getJSON(url) {
-        fetch(url)
-          .then(response => response.json())
-          .then(jsonResult => {
-        // Check the whole structure
-        console.log(jsonResult);
-    
-        // Access nested object safely
-        const selfLink = jsonResult.links.self;
-        console.log(selfLink);
-    
-        // Update your HTML element
-        document.getElementById("city").innerHTML = selfLink;
-        })
-        .catch(error => console.error('Error:', error));
-      }
-      
     </script>
+    
     <h2>Weather Forcast</h2>
     <a class="weatherwidget-io" href="https://forecast7.com/en/51d796d13/kleve/" data-label_1="KLEVE" data-label_2="WEATHER" data-icons="Climacons" data-days="3" data-theme="original" >KLEVE WEATHER</a>
   </div>
