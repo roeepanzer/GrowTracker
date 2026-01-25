@@ -13,29 +13,29 @@
   </div>
 <!--   <a href="https://roeepanzer.github.io/learning/clock.html">link to my live clock</a> -->
   <div id="clockArea">The current time: <div id="clock">Loading...</div></div>
-    <script>
-      function updateClock() {
-        const now = new Date();
-  
-        // Format HH:MM:SS
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-  
-        // Format DD.MM.YYYY
-        const day = String(now.getDate()).padStart(2, '0');
-        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-        const year = now.getFullYear();
-  
-        const timeString = `${hours}:${minutes}:${seconds}`;
-        const dateString = `${day}.${month}.${year}`;
-  
-        document.getElementById('clock').textContent = `${dateString}   ${timeString}`;
-      }
-      // Update immediately, then every second
-      updateClock();
-      setInterval(updateClock, 1000);
-    </script>
+  <script>
+    function updateClock() {
+      const now = new Date();
+
+      // Format HH:MM:SS
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+
+      // Format DD.MM.YYYY
+      const day = String(now.getDate()).padStart(2, '0');
+      const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+      const year = now.getFullYear();
+
+      const timeString = `${hours}:${minutes}:${seconds}`;
+      const dateString = `${day}.${month}.${year}`;
+
+      document.getElementById('clock').textContent = `${dateString}   ${timeString}`;
+    }
+    // Update immediately, then every second
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
   
   <div class="gauges">
     <section class="gauge" data-type="light">
@@ -82,6 +82,7 @@
       <div>Wind Speed: <nobr id="windSpAPI">windsp</nobr> km/h</div>
       <div>Wind Gusts: <nobr id="windGuAPI">windgu</nobr> km/h</div>
       <div>Wind direction: <nobr id="windDiAPI">winddi</nobr> &deg;</div>
+      <div>Timestamp: <nobr id="timestamp"></nobr></div>
     </div>
     
     <script>
@@ -90,7 +91,7 @@
       // let jsonResult = getWeather(url);
       // let jsonResult = fetch(url).json();
       getAndSet(url);
-      setInterval(getAndSet(url), 900000);
+      setInterval(getAndSet, 900000, url);
 
       async function getAndSet(url) {
         try{
@@ -105,6 +106,7 @@
           document.getElementById("windSpAPI").innerHTML = result.current.wind_speed_10m;
           document.getElementById("windGuAPI").innerHTML = result.current.wind_gusts_10m;
           document.getElementById("windDiAPI").innerHTML = result.current.wind_direction_10m;
+          document.getElementById("timestamp").innerHTML = result.current.time;
         }
         catch (error) {
           console.error(error.message);
