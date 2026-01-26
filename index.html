@@ -118,18 +118,98 @@
     <h2>Weather Forcast</h2>
       <div id="forcast">
         <div id="day1">This is today's weather</div>
-        <div id="day2">================</div>
-        <div id="day3">=====================</div>
+        <div id="day2"></div>
+        <div id="day3"></div>
       </div>
 
     <script>
-      const forecastURL = "https://api.open-meteo.com/v1/forecast?latitude=51.79&longitude=6.148&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,precipitation_probability,cloud_cover,wind_speed_80m,wind_direction_80m,wind_gusts_10m&timezone=Europe%2FBerlin&forecast_days=3";
+      const forecastURL = "https://api.open-meteo.com/v1/forecast?latitude=51.793056&longitude=6.159563&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,precipitation_probability,cloud_cover,wind_speed_80m,wind_direction_80m,wind_gusts_10m&timezone=Europe%2FBerlin&forecast_days=3";
       const day1Begin = 0;
       const day1End = 23;
       const day2Begin = 24;
       const day2End = 47;
       const day3Begin = 48;
       const day3End = 71;
+
+      let day1values = Array(24).fill(null).map(() => Array(10).fill(0));
+      let day2values = Array(24).fill(null).map(() => Array(10).fill(0));
+      let day3values = Array(24).fill(null).map(() => Array(10).fill(0));
+
+      async function getAndSetForecast(url) {
+        try{
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+          }
+          let result = await response.json();
+
+          // Populate day1 values
+          for (let i = day1Begin; i < day3End; i++) {
+            if(i <= day1End) {
+              day1values[i][0] = result.hourly.time[i];
+              day1values[i][1] = result.hourly.temperature_2m[i]; 
+              day1values[i][2] = result.hourly.relative_humidity_2m[i]; 
+              day1values[i][3] = result.hourly.apparent_temperature[i];
+              day1values[i][4] = result.hourly.precipitation[i];
+              day1values[i][5] = result.hourly.precipitation_probability[i];
+              day1values[i][6] = result.hourly.cloud_cover[i];
+              day1values[i][7] = result.hourly.wind_speed_80m[i]; 
+              day1values[i][8] = result.hourly.wind_direction_80m[i];
+              day1values[i][9] = result.hourly.wind_gusts_10m[i];
+            }
+            else if(i >= day2Begin && i <= day2End) {
+              day2values[i-day2Begin][0] = result.hourly.time[i];
+              day2values[i-day2Begin][1] = result.hourly.temperature_2m[i]; 
+              day2values[i-day2Begin][2] = result.hourly.relative_humidity_2m[i]; 
+              day2values[i-day2Begin][3] = result.hourly.apparent_temperature[i];
+              day2values[i-day2Begin][4] = result.hourly.precipitation[i];
+              day2values[i-day2Begin][5] = result.hourly.precipitation_probability[i];
+              day2values[i-day2Begin][6] = result.hourly.cloud_cover[i];
+              day2values[i-day2Begin][7] = result.hourly.wind_speed_80m[i]; 
+              day2values[i-day2Begin][8] = result.hourly.wind_direction_80m[i];
+              day2values[i-day2Begin][9] = result.hourly.wind_gusts_10m[i];
+            }
+            else if(i >= day3Begin && i <= day3End) {
+              day3values[i-day3Begin][0] = result.hourly.time[i];
+              day3values[i-day3Begin][1] = result.hourly.temperature_2m[i]; 
+              day3values[i-day3Begin][2] = result.hourly.relative_humidity_2m[i]; 
+              day3values[i-day3Begin][3] = result.hourly.apparent_temperature[i];
+              day3values[i-day3Begin][4] = result.hourly.precipitation[i];
+              day3values[i-day3Begin][5] = result.hourly.precipitation_probability[i];
+              day3values[i-day3Begin][6] = result.hourly.cloud_cover[i];
+              day3values[i-day3Begin][7] = result.hourly.wind_speed_80m[i]; 
+              day3values[i-day3Begin][8] = result.hourly.wind_direction_80m[i];
+              day3values[i-day3Begin][9] = result.hourly.wind_gusts_10m[i];
+            }
+          }
+          
+        }
+        catch (error) {
+          console.error(error.message);
+        }
+      }
+
+    getAndSetForecast(forecastURL).then(() => {
+      // day 1
+      console.log("=== Day 1 ===");
+      for (let hour = 0; hour < 24; hour++) {
+        console.log("day1 hour", hour, day1values[hour]);
+      }
+
+      // day 2
+      console.log("=== Day 2 ===");
+      for (let hour = 0; hour < 24; hour++) {
+        console.log("day2 hour", hour, day2values[hour]);
+      }
+
+      // day 3
+      console.log("=== Day 3 ===");
+      for (let hour = 0; hour < 24; hour++) {
+        console.log("day3 hour", hour, day3values[hour]);
+      }
+    });
+
+      // setInterval(getAndSetForecast, 3600000, forecastURL); //updating once an hour
     </script>
     
     <h2>Weather Forcast</h2>
