@@ -32,6 +32,11 @@ h1 {
   border-radius: 15px;
 }
 
+#forcast {
+  border:2px, solid, black;
+  border-radius: 15px;
+}
+
 .weatherwidget-io{
   width: auto;
 }
@@ -111,5 +116,6 @@ h1 {
 @media (max-width:520px){
   .gauge__title{ margin-bottom:6px; }
   .gauge__unit{ bottom:14px; }
-/*   .gauges{ flex-wrap:nowrap; /* force single row */} */
-}
+/*   .gauges{ flex-wrap:nowrap; /* force single row */
+
+} 

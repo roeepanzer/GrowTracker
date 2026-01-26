@@ -189,25 +189,26 @@
         }
       }
 
-    getAndSetForecast(forecastURL).then(() => {
-      // day 1
-      console.log("=== Day 1 ===");
-      for (let hour = 0; hour < 24; hour++) {
-        console.log("day1 hour", hour, day1values[hour]);
-      }
+      getAndSetForecast(forecastURL);
+      // .then(() => {
+      //   // day 1
+      //   console.log("=== Day 1 ===");
+      //   for (let hour = 0; hour < 24; hour++) {
+      //     console.log("day1 hour", hour, day1values[hour]);
+      //   }
 
-      // day 2
-      console.log("=== Day 2 ===");
-      for (let hour = 0; hour < 24; hour++) {
-        console.log("day2 hour", hour, day2values[hour]);
-      }
+      //   // day 2
+      //   console.log("=== Day 2 ===");
+      //   for (let hour = 0; hour < 24; hour++) {
+      //     console.log("day2 hour", hour, day2values[hour]);
+      //   }
 
-      // day 3
-      console.log("=== Day 3 ===");
-      for (let hour = 0; hour < 24; hour++) {
-        console.log("day3 hour", hour, day3values[hour]);
-      }
-    });
+      //   // day 3
+      //   console.log("=== Day 3 ===");
+      //   for (let hour = 0; hour < 24; hour++) {
+      //     console.log("day3 hour", hour, day3values[hour]);
+      //   }
+      // });
 
       // setInterval(getAndSetForecast, 3600000, forecastURL); //updating once an hour
     </script>
