@@ -87,11 +87,12 @@
     
     <script>
       // const url = "https://api.country.is/";
-      const url = "https://api.open-meteo.com/v1/forecast?latitude=51.793181954585414&longitude=6.159587746646279&hourly=wind_speed_80m,wind_direction_10m,wind_direction_80m,wind_gusts_10m,wind_speed_10m,cloud_cover,precipitation_probability,precipitation&current=wind_speed_10m,wind_direction_10m,wind_gusts_10m,temperature_2m,relative_humidity_2m,precipitation&minutely_15=wind_gusts_10m,precipitation,wind_speed_10m&timezone=Europe%2FBerlin&forecast_days=3";
+      // const url = "https://api.open-meteo.com/v1/forecast?latitude=51.793181954585414&longitude=6.159587746646279&hourly=wind_speed_80m,wind_direction_10m,wind_direction_80m,wind_gusts_10m,wind_speed_10m,cloud_cover,precipitation_probability,precipitation&current=wind_speed_10m,wind_direction_10m,wind_gusts_10m,temperature_2m,relative_humidity_2m,precipitation&minutely_15=wind_gusts_10m,precipitation,wind_speed_10m&timezone=Europe%2FBerlin&forecast_days=3";
+      const CurrentURL = "https://api.open-meteo.com/v1/forecast?latitude=51.79&longitude=6.148&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,wind_direction_10m,wind_gusts_10m,cloud_cover&timezone=Europe%2FBerlin&forecast_days=3";
       // let jsonResult = getWeather(url);
       // let jsonResult = fetch(url).json();
-      getAndSet(url);
-      setInterval(getAndSet, 900000, url);
+      getAndSet(CurrentURL);
+      setInterval(getAndSet, 900000, CurrentURL);
 
       async function getAndSet(url) {
         try{
@@ -112,11 +113,28 @@
           console.error(error.message);
         }
       }
-      
+    </script>
+    
+    <h2>Weather Forcast</h2>
+      <div id="forcast">
+        <div id="day1"></div>
+        <div id="day2"></div>
+        <div id="day3"></div>
+      </div>
+
+    <script>
+      const forecastURL = "https://api.open-meteo.com/v1/forecast?latitude=51.79&longitude=6.148&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,precipitation_probability,cloud_cover,wind_speed_80m,wind_direction_80m,wind_gusts_10m&timezone=Europe%2FBerlin&forecast_days=3";
+      const day1Begin = 0;
+      const day1End = 23;
+      const day2Begin = 24;
+      const day2End = 47;
+      const day3Begin = 48;
+      const day3End = 71;
     </script>
     
     <h2>Weather Forcast</h2>
     <a class="weatherwidget-io" href="https://forecast7.com/en/51d796d13/kleve/" data-label_1="KLEVE" data-label_2="WEATHER" data-icons="Climacons" data-days="3" data-theme="original" >KLEVE WEATHER</a>
+  
   </div>
   <script>
   !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
