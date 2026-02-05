@@ -33,17 +33,22 @@ h1 {
 }
 
 #forcast {
-  border:2px, solid, black;
+  display: flex;
+  flex-direction: row;
+  gap: 1%;
+  padding: 10px;
+  border: 2px solid black;
   border-radius: 15px;
 }
 
 #day1, #day2, #day3 {
+  flex: 1;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
   padding: 10px;
-  border:2px, solid, black;
+  border: 2px solid black;
   border-radius: 15px;
 }
 
