@@ -117,9 +117,33 @@
     
     <h2>Weather Forcast</h2>
       <div id="forcast">
-        <div id="day1">This is today's weather</div>
-        <div id="day2"></div>
-        <div id="day3"></div>
+        <div id="day1">
+          <div>Temperature: <nobr id="day1temp"></nobr>&deg;C</div>
+          <div>Humidity: <nobr id="day1humid"></nobr>%</div>
+          <div>Precipitation: <nobr id="day1precip"></nobr> mm</div>
+          <div>Cloud Cover: <nobr id="day1cloud"></nobr>%</div>
+          <div>Wind Speed: <nobr id="day1wind"></nobr> km/h</div>
+          <div>Wind Gusts: <nobr id="day1gusts"></nobr> km/h</div>
+          <div>Wind Direction: <nobr id="day1direction"></nobr> &deg;</div>
+        </div>
+        <div id="day2">
+          <div>Temperature: <nobr id="day2temp"></nobr>&deg;C</div>
+          <div>Humidity: <nobr id="day2humid"></nobr>%</div>
+          <div>Precipitation: <nobr id="day2precip"></nobr> mm</div>
+          <div>Cloud Cover: <nobr id="day2cloud"></nobr>%</div>
+          <div>Wind Speed: <nobr id="day2wind"></nobr> km/h</div>
+          <div>Wind Gusts: <nobr id="day2gusts"></nobr> km/h</div>
+          <div>Wind Direction: <nobr id="day2direction"></nobr> &deg;</div>
+        </div>
+        <div id="day3">
+          <div>Temperature: <nobr id="day3temp"></nobr>&deg;C</div>
+          <div>Humidity: <nobr id="day3humid"></nobr>%</div>
+          <div>Precipitation: <nobr id="day3precip"></nobr> mm</div>
+          <div>Cloud Cover: <nobr id="day3cloud"></nobr>%</div>
+          <div>Wind Speed: <nobr id="day3wind"></nobr> km/h</div>
+          <div>Wind Gusts: <nobr id="day3gusts"></nobr> km/h</div>
+          <div>Wind Direction: <nobr id="day3direction"></nobr> &deg;</div>
+        </div>
       </div>
 
     <script>
@@ -187,30 +211,11 @@
         catch (error) {
           console.error(error.message);
         }
+
+
       }
 
       getAndSetForecast(forecastURL);
-      // .then(() => {
-      //   // day 1
-      //   console.log("=== Day 1 ===");
-      //   for (let hour = 0; hour < 24; hour++) {
-      //     console.log("day1 hour", hour, day1values[hour]);
-      //   }
-
-      //   // day 2
-      //   console.log("=== Day 2 ===");
-      //   for (let hour = 0; hour < 24; hour++) {
-      //     console.log("day2 hour", hour, day2values[hour]);
-      //   }
-
-      //   // day 3
-      //   console.log("=== Day 3 ===");
-      //   for (let hour = 0; hour < 24; hour++) {
-      //     console.log("day3 hour", hour, day3values[hour]);
-      //   }
-      // });
-
-      // setInterval(getAndSetForecast, 3600000, forecastURL); //updating once an hour
     </script>
     
     <h2>Weather Forcast</h2>
