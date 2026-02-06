@@ -181,15 +181,15 @@
       let day2values = Array(24).fill(null).map(() => Array(10).fill(0));
       let day3values = Array(24).fill(null).map(() => Array(10).fill(0));
 
-      async function averageValues(values) {
+      function averageValues(values) {
         return values.reduce((a, b) => a + b, 0) / values.length;
       }
 
-      async function highestValue(values) {
+      function highestValue(values) {
         return values.reduce((a, b) => a > b ? a : b);
       }
 
-      async function lowestValue(values) {
+      function lowestValue(values) {
         return values.reduce((a, b) => a < b ? a : b);
       }
 
@@ -246,32 +246,32 @@
           console.error(error.message);
         }
 
-        document.getElementById("day1tempHigh").innerHTML = highestValue(day1values)[1];
-        document.getElementById("day1tempLow").innerHTML = lowestValue(day1values)[1];
-        document.getElementById("day1humid").innerHTML = averageValues(day1values)[2];
-        document.getElementById("day1precip").innerHTML = averageValues(day1values)[4];
-        document.getElementById("day1cloud").innerHTML = averageValues(day1values)[6];
-        document.getElementById("day1wind").innerHTML = averageValues(day1values)[7];
-        document.getElementById("day1gusts").innerHTML = averageValues(day1values)[9];
-        document.getElementById("day1direction").innerHTML = averageValues(day1values)[8];
+        document.getElementById("day1tempHigh").innerHTML = highestValue(day1values.map(r => r[1]));
+        document.getElementById("day1tempLow").innerHTML = lowestValue(day1values.map(r => r[1]));
+        document.getElementById("day1humid").innerHTML = averageValues(day1values.map(r => r[2]));
+        document.getElementById("day1precip").innerHTML = averageValues(day1values.map(r => r[4]));
+        document.getElementById("day1cloud").innerHTML = averageValues(day1values.map(r => r[6]));
+        document.getElementById("day1wind").innerHTML = averageValues(day1values.map(r => r[7]));
+        document.getElementById("day1gusts").innerHTML = averageValues(day1values.map(r => r[9]));
+        document.getElementById("day1direction").innerHTML = averageValues(day1values.map(r => r[8]));
 
-        document.getElementById("day2tempHigh").innerHTML = highestValue(day2values)[1];
-        document.getElementById("day2tempLow").innerHTML = lowestValue(day2values)[1];
-        document.getElementById("day2humid").innerHTML = averageValues(day2values)[2];
-        document.getElementById("day2precip").innerHTML = averageValues(day2values)[4];
-        document.getElementById("day2cloud").innerHTML = averageValues(day2values)[6];
-        document.getElementById("day2wind").innerHTML = averageValues(day2values)[7];
-        document.getElementById("day2gusts").innerHTML = averageValues(day2values)[9];
-        document.getElementById("day2direction").innerHTML = averageValues(day2values)[8];
+        document.getElementById("day2tempHigh").innerHTML = highestValue(day2values.map(r => r[1]));
+        document.getElementById("day2tempLow").innerHTML = lowestValue(day2values.map(r => r[1]));
+        document.getElementById("day2humid").innerHTML = averageValues(day2values.map(r => r[2]));
+        document.getElementById("day2precip").innerHTML = averageValues(day2values.map(r => r[4]));
+        document.getElementById("day2cloud").innerHTML = averageValues(day2values.map(r => r[6]));
+        document.getElementById("day2wind").innerHTML = averageValues(day2values.map(r => r[7]));
+        document.getElementById("day2gusts").innerHTML = averageValues(day2values.map(r => r[9]));
+        document.getElementById("day2direction").innerHTML = averageValues(day2values.map(r => r[8]));
 
-        document.getElementById("day3tempHigh").innerHTML = highestValue(day3values)[1];
-        document.getElementById("day3tempLow").innerHTML = lowestValue(day3values)[1];
-        document.getElementById("day3humid").innerHTML = averageValues(day3values)[2];
-        document.getElementById("day3precip").innerHTML = averageValues(day3values)[4];
-        document.getElementById("day3cloud").innerHTML = averageValues(day3values)[6];
-        document.getElementById("day3wind").innerHTML = averageValues(day3values)[7];
-        document.getElementById("day3gusts").innerHTML = averageValues(day3values)[9];
-        document.getElementById("day3direction").innerHTML = averageValues(day3values)[8];
+        document.getElementById("day3tempHigh").innerHTML = highestValue(day3values.map(r => r[1]));
+        document.getElementById("day3tempLow").innerHTML = lowestValue(day3values.map(r => r[1]));
+        document.getElementById("day3humid").innerHTML = averageValues(day3values.map(r => r[2]));
+        document.getElementById("day3precip").innerHTML = averageValues(day3values.map(r => r[4]));
+        document.getElementById("day3cloud").innerHTML = averageValues(day3values.map(r => r[6]));
+        document.getElementById("day3wind").innerHTML = averageValues(day3values.map(r => r[7]));
+        document.getElementById("day3gusts").innerHTML = averageValues(day3values.map(r => r[9]));
+        document.getElementById("day3direction").innerHTML = averageValues(day3values.map(r => r[8]));
       }
 
       getAndSetForecast(forecastURL);
