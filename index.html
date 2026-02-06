@@ -118,7 +118,7 @@
     <h2>Weather Forcast</h2>
       <div id="forcast">
         <div id="day1">
-          <div id="day1day"><b>Today</b></div>
+          <div id="day1day"><b>Thursday</b></div>
           <div id="day1date"><b>06/02/2026</b></div>
           <div>Temperature: <nobr id="day1temp"></nobr>&deg;C</div>
           <div>Humidity: <nobr id="day1humid"></nobr>%</div>
@@ -129,7 +129,7 @@
           <div>Wind Direction: <nobr id="day1direction"></nobr> &deg;</div>
         </div>
         <div id="day2">
-          <div id="day2day"><b>Tomorrow</b></div>
+          <div id="day2day"><b>Friday</b></div>
           <div id="day2date"><b>07/02/2026</b></div>
           <div>Temperature: <nobr id="day2temp"></nobr>&deg;C</div>
           <div>Humidity: <nobr id="day2humid"></nobr>%</div>
@@ -140,7 +140,7 @@
           <div>Wind Direction: <nobr id="day2direction"></nobr> &deg;</div>
         </div>
         <div id="day3">
-          <div id="day3day"><b>Day after tomorrow</b></div>
+          <div id="day3day"><b>Saturday</b></div>
           <div id="day3date"><b>08/02/2026</b></div>
           <div>Temperature: <nobr id="day3temp"></nobr>&deg;C</div>
           <div>Humidity: <nobr id="day3humid"></nobr>%</div>
@@ -160,6 +160,13 @@
       const day2End = 47;
       const day3Begin = 48;
       const day3End = 72;
+
+      document.getElementById("day1date").innerHTML = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      document.getElementById("day2date").innerHTML = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) + 1;
+      document.getElementById("day3date").innerHTML = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) + 2;
+      document.getElementById("day1day").innerHTML = new Date().toLocaleDateString('en-GB', { weekday: 'long' });
+      document.getElementById("day2day").innerHTML = new Date().toLocaleDateString('en-GB', { weekday: 'long' }) + 1;
+      document.getElementById("day3day").innerHTML = new Date().toLocaleDateString('en-GB', { weekday: 'long' }) + 2;
 
       let day1values = Array(24).fill(null).map(() => Array(10).fill(0));
       let day2values = Array(24).fill(null).map(() => Array(10).fill(0));
