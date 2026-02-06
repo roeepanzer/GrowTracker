@@ -193,6 +193,10 @@
         return values.reduce((a, b) => a < b ? a : b);
       }
 
+      function formatDecimal(num, decimals = 2) {
+        return Number(num).toFixed(decimals);
+      }
+
       async function getAndSetForecast(url) {
         try{
           const response = await fetch(url);
@@ -246,32 +250,32 @@
           console.error(error.message);
         }
 
-        document.getElementById("day1tempHigh").innerHTML = highestValue(day1values.map(r => r[1]));
-        document.getElementById("day1tempLow").innerHTML = lowestValue(day1values.map(r => r[1]));
-        document.getElementById("day1humid").innerHTML = averageValues(day1values.map(r => r[2]));
-        document.getElementById("day1precip").innerHTML = averageValues(day1values.map(r => r[4]));
-        document.getElementById("day1cloud").innerHTML = averageValues(day1values.map(r => r[6]));
-        document.getElementById("day1wind").innerHTML = averageValues(day1values.map(r => r[7]));
-        document.getElementById("day1gusts").innerHTML = averageValues(day1values.map(r => r[9]));
-        document.getElementById("day1direction").innerHTML = averageValues(day1values.map(r => r[8]));
+        document.getElementById("day1tempHigh").innerHTML = formatDecimal(highestValue(day1values.map(r => r[1])));
+        document.getElementById("day1tempLow").innerHTML = formatDecimal(lowestValue(day1values.map(r => r[1])));
+        document.getElementById("day1humid").innerHTML = formatDecimal(averageValues(day1values.map(r => r[2])));
+        document.getElementById("day1precip").innerHTML = formatDecimal(averageValues(day1values.map(r => r[4])));
+        document.getElementById("day1cloud").innerHTML = formatDecimal(averageValues(day1values.map(r => r[6])));
+        document.getElementById("day1wind").innerHTML = formatDecimal(averageValues(day1values.map(r => r[7])));
+        document.getElementById("day1gusts").innerHTML = formatDecimal(averageValues(day1values.map(r => r[9])));
+        document.getElementById("day1direction").innerHTML = formatDecimal(averageValues(day1values.map(r => r[8])));
 
-        document.getElementById("day2tempHigh").innerHTML = highestValue(day2values.map(r => r[1]));
-        document.getElementById("day2tempLow").innerHTML = lowestValue(day2values.map(r => r[1]));
-        document.getElementById("day2humid").innerHTML = averageValues(day2values.map(r => r[2]));
-        document.getElementById("day2precip").innerHTML = averageValues(day2values.map(r => r[4]));
-        document.getElementById("day2cloud").innerHTML = averageValues(day2values.map(r => r[6]));
-        document.getElementById("day2wind").innerHTML = averageValues(day2values.map(r => r[7]));
-        document.getElementById("day2gusts").innerHTML = averageValues(day2values.map(r => r[9]));
-        document.getElementById("day2direction").innerHTML = averageValues(day2values.map(r => r[8]));
+        document.getElementById("day2tempHigh").innerHTML = formatDecimal(highestValue(day2values.map(r => r[1])));
+        document.getElementById("day2tempLow").innerHTML = formatDecimal(lowestValue(day2values.map(r => r[1])));
+        document.getElementById("day2humid").innerHTML = formatDecimal(averageValues(day2values.map(r => r[2])));
+        document.getElementById("day2precip").innerHTML = formatDecimal(averageValues(day2values.map(r => r[4])));
+        document.getElementById("day2cloud").innerHTML = formatDecimal(averageValues(day2values.map(r => r[6])));
+        document.getElementById("day2wind").innerHTML = formatDecimal(averageValues(day2values.map(r => r[7])));
+        document.getElementById("day2gusts").innerHTML = formatDecimal(averageValues(day2values.map(r => r[9])));
+        document.getElementById("day2direction").innerHTML = formatDecimal(averageValues(day2values.map(r => r[8])));
 
-        document.getElementById("day3tempHigh").innerHTML = highestValue(day3values.map(r => r[1]));
-        document.getElementById("day3tempLow").innerHTML = lowestValue(day3values.map(r => r[1]));
-        document.getElementById("day3humid").innerHTML = averageValues(day3values.map(r => r[2]));
-        document.getElementById("day3precip").innerHTML = averageValues(day3values.map(r => r[4]));
-        document.getElementById("day3cloud").innerHTML = averageValues(day3values.map(r => r[6]));
-        document.getElementById("day3wind").innerHTML = averageValues(day3values.map(r => r[7]));
-        document.getElementById("day3gusts").innerHTML = averageValues(day3values.map(r => r[9]));
-        document.getElementById("day3direction").innerHTML = averageValues(day3values.map(r => r[8]));
+        document.getElementById("day3tempHigh").innerHTML = formatDecimal(highestValue(day3values.map(r => r[1])));
+        document.getElementById("day3tempLow").innerHTML = formatDecimal(lowestValue(day3values.map(r => r[1])));
+        document.getElementById("day3humid").innerHTML = formatDecimal(averageValues(day3values.map(r => r[2])));
+        document.getElementById("day3precip").innerHTML = formatDecimal(averageValues(day3values.map(r => r[4])));
+        document.getElementById("day3cloud").innerHTML = formatDecimal(averageValues(day3values.map(r => r[6])));
+        document.getElementById("day3wind").innerHTML = formatDecimal(averageValues(day3values.map(r => r[7])));
+        document.getElementById("day3gusts").innerHTML = formatDecimal(averageValues(day3values.map(r => r[9])));
+        document.getElementById("day3direction").innerHTML = formatDecimal(averageValues(day3values.map(r => r[8])));
       }
 
       getAndSetForecast(forecastURL);
