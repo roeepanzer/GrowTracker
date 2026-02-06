@@ -87,6 +87,7 @@ void loop() {
   if(app.ready()) {
     if (millis() - currentTime >= timeInterval) {
       currentTime = millis();
+      lastHistoryTime = millis()-historyInterval;
 
       //BH1750 - measuring light
       float lux = lightMeter.readLightLevel();
