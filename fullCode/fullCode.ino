@@ -46,7 +46,7 @@ bool timeInitialized = false;
 const int timeInterval = 10000; //10 seconds
 const int historyInterval = 1800000; //30 minutes
 long currentTime = 0;
-long lastHistoryTime = 0;
+long lastHistoryTime = millis()-historyInterval;
 
 static uint8_t wifiFailCount = 0;
 static unsigned long lastWifiAttempt = 0;
@@ -73,6 +73,7 @@ void setup() {
 
   Wire.begin();
   lightMeter.begin();
+
 }
 
 void loop() {
@@ -87,7 +88,7 @@ void loop() {
   if(app.ready()) {
     if (millis() - currentTime >= timeInterval) {
       currentTime = millis();
-      lastHistoryTime = millis()-historyInterval;
+      
 
       //BH1750 - measuring light
       float lux = lightMeter.readLightLevel();

@@ -9,7 +9,10 @@
 <body>
   <div id="headline">
     <h1>Firebase Realtime Database</h1>
-    <div id="notification">This is a notification</div>
+    <div id="notification">This is a notification
+      <div id="windNotification">Wind Notification</div>
+      <div id="tempNotification">Temp Notification</div>
+    </div>
   </div>
 <!--   <a href="https://roeepanzer.github.io/learning/clock.html">link to my live clock</a> -->
   <div id="clockArea">The current time: <div id="clock">Loading...</div></div>
@@ -82,6 +85,7 @@
       <div>Wind Speed: <nobr id="windSpAPI">windsp</nobr> km/h</div>
       <div>Wind Gusts: <nobr id="windGuAPI">windgu</nobr> km/h</div>
       <div>Wind direction: <nobr id="windDiAPI">winddi</nobr> &deg;</div>
+      <div>Wind Level: <nobr id="windLeAPI">windLe</nobr> km/h</div>
       <div>Timestamp: <nobr id="timestamp"></nobr></div>
     </div>
     
@@ -89,8 +93,33 @@
       // const url = "https://api.country.is/";
       // const url = "https://api.open-meteo.com/v1/forecast?latitude=51.793181954585414&longitude=6.159587746646279&hourly=wind_speed_80m,wind_direction_10m,wind_direction_80m,wind_gusts_10m,wind_speed_10m,cloud_cover,precipitation_probability,precipitation&current=wind_speed_10m,wind_direction_10m,wind_gusts_10m,temperature_2m,relative_humidity_2m,precipitation&minutely_15=wind_gusts_10m,precipitation,wind_speed_10m&timezone=Europe%2FBerlin&forecast_days=3";
       const CurrentURL = "https://api.open-meteo.com/v1/forecast?latitude=51.79&longitude=6.148&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m,wind_direction_10m,wind_gusts_10m,cloud_cover&timezone=Europe%2FBerlin&forecast_days=3";
-      // let jsonResult = getWeather(url);
-      // let jsonResult = fetch(url).json();
+      
+      const level0Bottom = 0;
+      const level0Top = 1;
+      const level1Bottom = 1;
+      const level1Top = 5;
+      const level2Bottom = 6;
+      const level2Top = 11;
+      const level3Bottom = 12;
+      const level3Top = 19;
+      const level4Bottom = 20;
+      const level4Top = 28;
+      const level5Bottom = 29;
+      const level5Top = 38;
+      const level6Bottom = 39;
+      const level6Top = 49;
+      const level7Bottom = 50;
+      const level7Top = 61;
+      const level8Bottom = 62;
+      const level8Top = 74;
+      const level9Bottom = 75;
+      const level9Top = 88;
+      const level10Bottom = 89;
+      const level10Top = 102;
+      const level11Bottom = 103;
+      const level11Top = 117;
+      const level12Bottom = 118;
+
       getAndSet(CurrentURL);
       setInterval(getAndSet, 900000, CurrentURL);
 
@@ -107,11 +136,61 @@
           document.getElementById("windSpAPI").innerHTML = result.current.wind_speed_10m;
           document.getElementById("windGuAPI").innerHTML = result.current.wind_gusts_10m;
           document.getElementById("windDiAPI").innerHTML = result.current.wind_direction_10m;
+          document.getElementById("windLeAPI").innerHTML = windLevelSet(result.current.wind_speed_10m);
           document.getElementById("timestamp").innerHTML = result.current.time;
         }
         catch (error) {
           console.error(error.message);
         }
+      }
+
+      function windLevelSet(windSpeed) {
+        if(windSpeed >= level0Bottom && windSpeed <= level0Top) {
+          return 0;
+        }
+        else if(windSpeed >= level1Bottom && windSpeed <= level1Top) {
+          return 1;
+        }
+        else if(windSpeed >= level2Bottom && windSpeed <= level2Top) {
+          return 2;
+        }
+        else if(windSpeed >= level3Bottom && windSpeed <= level3Top) {
+          return 3;
+        }
+        else if(windSpeed >= level4Bottom && windSpeed <= level4Top) {
+          return 4;
+        }
+        else if(windSpeed >= level5Bottom && windSpeed <= level5Top) {
+          return 5;
+        }
+        else if(windSpeed >= level6Bottom && windSpeed <= level6Top) {
+          return 6;
+        }
+        else if(windSpeed >= level7Bottom && windSpeed <= level7Top) {
+          return 7;
+        }
+        else if(windSpeed >= level8Bottom && windSpeed <= level8Top) {
+          return 8;
+        }
+        else if(windSpeed >= level9Bottom && windSpeed <= level9Top) {
+          return 9;
+        }
+        else if(windSpeed >= level10Bottom && windSpeed <= level10Top) {
+          return 10;
+        }
+        else if(windSpeed >= level11Bottom && windSpeed <= level11Top) {
+          return 11;
+        }
+        else if(windSpeed >= level12Bottom && windSpeed <= level12Top) {
+          return 12;
+        }
+        else {
+          return -1;
+        }
+      }
+
+      async function notificationSet(value) {
+        
       }
     </script>
     
