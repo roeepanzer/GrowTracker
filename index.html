@@ -186,11 +186,11 @@
       }
 
       async function highestValue(values) {
-        return row.reduce((a, b) => a > b ? a : b);
+        return values.reduce((a, b) => a > b ? a : b);
       }
 
       async function lowestValue(values) {
-        return row.reduce((a, b) => a < b ? a : b);
+        return values.reduce((a, b) => a < b ? a : b);
       }
 
       async function getAndSetForecast(url) {

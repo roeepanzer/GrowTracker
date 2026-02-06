@@ -44,7 +44,7 @@ const long  gmtOffset_sec = 3600; //GMT+1
 const int   daylightOffset_sec = 3600; //Summer time +1
 bool timeInitialized = false;
 const int timeInterval = 10000; //10 seconds
-const int historyInterval = 1800000; //30 minutes
+const int historyInterval = 60000; //30 minutes
 long currentTime = 0;
 long lastHistoryTime = 0;
 
