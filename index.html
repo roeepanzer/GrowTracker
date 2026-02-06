@@ -245,6 +245,10 @@
       const day3Begin = 48;
       const day3End = 72;
 
+      day1array = [[], [], [], [], [], [], [], [], [], []];
+      day2array = [[], [], [], [], [], [], [], [], [], []];
+      day3array = [[], [], [], [], [], [], [], [], [], []];
+
       const today = new Date();
       const tomorrow = new Date(today);
       tomorrow.setDate(today.getDate() + 1);
@@ -325,7 +329,9 @@
               day3values[i-day3Begin][9] = result.hourly.wind_gusts_10m[i];
             }
           }
-          
+          day1array = day1values;
+          day2array = day2values;
+          day3array = day3values;
         }
         catch (error) {
           console.error(error.message);
@@ -357,6 +363,7 @@
         document.getElementById("day3wind").innerHTML = formatDecimal(averageValues(day3values.map(r => r[7])));
         document.getElementById("day3gusts").innerHTML = formatDecimal(averageValues(day3values.map(r => r[9])));
         document.getElementById("day3direction").innerHTML = formatDecimal(averageValues(day3values.map(r => r[8])));
+      
       }
 
       getAndSetForecast(forecastURL);
@@ -369,7 +376,25 @@
   <script>
   !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
   </script>
+
+  <div id="pastWeather">
+    <div id="Day1Graph" style="width:100%;max-width:700px"></div>
+  </div>
   
+  <script>
+    const xArray = day1array[0];
+    const yArray = day1array[1];
+
+    const data = [{x: xArray, y: yArray, mode: "lines"}];
+    const layout = {
+      xaxis: {range: [0,24], title: "Time of the day"},
+      yaxis: {range: [0,40], title: "Temperature"}
+    };
+
+    Plotly.newPlot("Day1Graph", data, layout);
+  </script>
+
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
     import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
