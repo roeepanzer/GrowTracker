@@ -120,7 +120,8 @@
         <div id="day1">
           <div id="day1day"><b>Thursday</b></div>
           <div id="day1date"><b>06/02/2026</b></div>
-          <div>Temperature: <nobr id="day1temp"></nobr>&deg;C</div>
+          <div>Temp High: <nobr id="day1tempHigh"></nobr>&deg;C</div>
+          <div>Temp Low: <nobr id="day1tempLow"></nobr>&deg;C</div>
           <div>Humidity: <nobr id="day1humid"></nobr>%</div>
           <div>Precipitation: <nobr id="day1precip"></nobr> mm</div>
           <div>Cloud Cover: <nobr id="day1cloud"></nobr>%</div>
@@ -131,7 +132,8 @@
         <div id="day2">
           <div id="day2day"><b>Friday</b></div>
           <div id="day2date"><b>07/02/2026</b></div>
-          <div>Temperature: <nobr id="day2temp"></nobr>&deg;C</div>
+          <div>Temp High: <nobr id="day2tempHigh"></nobr>&deg;C</div>
+          <div>Temp Low: <nobr id="day2tempLow"></nobr>&deg;C</div>
           <div>Humidity: <nobr id="day2humid"></nobr>%</div>
           <div>Precipitation: <nobr id="day2precip"></nobr> mm</div>
           <div>Cloud Cover: <nobr id="day2cloud"></nobr>%</div>
@@ -142,7 +144,8 @@
         <div id="day3">
           <div id="day3day"><b>Saturday</b></div>
           <div id="day3date"><b>08/02/2026</b></div>
-          <div>Temperature: <nobr id="day3temp"></nobr>&deg;C</div>
+          <div>Temp High: <nobr id="day3tempHigh"></nobr>&deg;C</div>
+          <div>Temp Low: <nobr id="day3tempLow"></nobr>&deg;C</div>
           <div>Humidity: <nobr id="day3humid"></nobr>%</div>
           <div>Precipitation: <nobr id="day3precip"></nobr> mm</div>
           <div>Cloud Cover: <nobr id="day3cloud"></nobr>%</div>
@@ -161,16 +164,34 @@
       const day3Begin = 48;
       const day3End = 72;
 
-      document.getElementById("day1date").innerHTML = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
-      document.getElementById("day2date").innerHTML = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) + 1;
-      document.getElementById("day3date").innerHTML = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) + 2;
-      document.getElementById("day1day").innerHTML = new Date().toLocaleDateString('en-GB', { weekday: 'long' });
-      document.getElementById("day2day").innerHTML = new Date().toLocaleDateString('en-GB', { weekday: 'long' }) + 1;
-      document.getElementById("day3day").innerHTML = new Date().toLocaleDateString('en-GB', { weekday: 'long' }) + 2;
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(today.getDate() + 1);
+      const dayAfter = new Date(today);
+      dayAfter.setDate(today.getDate() + 2);
+
+      document.getElementById("day1date").innerHTML = today.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      document.getElementById("day2date").innerHTML = tomorrow.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      document.getElementById("day3date").innerHTML = dayAfter.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      document.getElementById("day1day").innerHTML = today.toLocaleDateString('en-GB', { weekday: 'long' });
+      document.getElementById("day2day").innerHTML = tomorrow.toLocaleDateString('en-GB', { weekday: 'long' });
+      document.getElementById("day3day").innerHTML = dayAfter.toLocaleDateString('en-GB', { weekday: 'long' });
 
       let day1values = Array(24).fill(null).map(() => Array(10).fill(0));
       let day2values = Array(24).fill(null).map(() => Array(10).fill(0));
       let day3values = Array(24).fill(null).map(() => Array(10).fill(0));
+
+      async function averageValues(values) {
+        return values.reduce((a, b) => a + b, 0) / values.length;
+      }
+
+      async function highestValue(values) {
+        return row.reduce((a, b) => a > b ? a : b);
+      }
+
+      async function lowestValue(values) {
+        return row.reduce((a, b) => a < b ? a : b);
+      }
 
       async function getAndSetForecast(url) {
         try{
@@ -225,7 +246,32 @@
           console.error(error.message);
         }
 
+        document.getElementById("day1tempHigh").innerHTML = highestValue(day1values)[1];
+        document.getElementById("day1tempLow").innerHTML = lowestValue(day1values)[1];
+        document.getElementById("day1humid").innerHTML = averageValues(day1values)[2];
+        document.getElementById("day1precip").innerHTML = averageValues(day1values)[4];
+        document.getElementById("day1cloud").innerHTML = averageValues(day1values)[6];
+        document.getElementById("day1wind").innerHTML = averageValues(day1values)[7];
+        document.getElementById("day1gusts").innerHTML = averageValues(day1values)[9];
+        document.getElementById("day1direction").innerHTML = averageValues(day1values)[8];
 
+        document.getElementById("day2tempHigh").innerHTML = highestValue(day2values)[1];
+        document.getElementById("day2tempLow").innerHTML = lowestValue(day2values)[1];
+        document.getElementById("day2humid").innerHTML = averageValues(day2values)[2];
+        document.getElementById("day2precip").innerHTML = averageValues(day2values)[4];
+        document.getElementById("day2cloud").innerHTML = averageValues(day2values)[6];
+        document.getElementById("day2wind").innerHTML = averageValues(day2values)[7];
+        document.getElementById("day2gusts").innerHTML = averageValues(day2values)[9];
+        document.getElementById("day2direction").innerHTML = averageValues(day2values)[8];
+
+        document.getElementById("day3tempHigh").innerHTML = highestValue(day3values)[1];
+        document.getElementById("day3tempLow").innerHTML = lowestValue(day3values)[1];
+        document.getElementById("day3humid").innerHTML = averageValues(day3values)[2];
+        document.getElementById("day3precip").innerHTML = averageValues(day3values)[4];
+        document.getElementById("day3cloud").innerHTML = averageValues(day3values)[6];
+        document.getElementById("day3wind").innerHTML = averageValues(day3values)[7];
+        document.getElementById("day3gusts").innerHTML = averageValues(day3values)[9];
+        document.getElementById("day3direction").innerHTML = averageValues(day3values)[8];
       }
 
       getAndSetForecast(forecastURL);
