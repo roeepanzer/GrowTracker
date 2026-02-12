@@ -89,42 +89,53 @@ void loop() {
     if (millis() - currentTime >= timeInterval) {
       currentTime = millis();
       
-
       //BH1750 - measuring light
       float lux = lightMeter.readLightLevel();
       char luxPrint[8];
       dtostrf(lux, 5, 1, luxPrint);
-      Database.set<float>(aClient, "liveData/light", lux, processData);
+      // Database.set<float>(aClient, "liveData/light", lux, processData);
 
       //DHT22 - measuring temp and humidity
       float temp = dht22.getTemperature();
-      Database.set<float>(aClient, "liveData/temp", temp, processData);
+      // Database.set<float>(aClient, "liveData/temp", temp, processData);
       float humidity = dht22.getHumidity();
-      Database.set<float>(aClient, "liveData/humid", humidity, processData);
+      // Database.set<float>(aClient, "liveData/humid", humidity, processData);
+
+      object_t payload = JsonFileCreator(lux, temp, humidity);
+      Database.set<object_t>(aClient, "liveData", payload, processData);
 
       // History: write a snapshot under historyData/<epoch> every historyInterval
       if (millis() - lastHistoryTime >= historyInterval) {
         lastHistoryTime = millis();
-        String path = "historyData/" + String(rtc.getEpoch());
+        String pathHis = "historyData/" + String(rtc.getEpoch());
 
         // object_t = JSON placeholder; value at path must be the payload only (light, temp, humidity)
-        object_t tempJson, humJson, luxJson, payload;
-        JsonWriter writer;
-        writer.create(luxJson, "/light", number_t(lux));
-        writer.create(tempJson, "/temp", number_t(temp));
-        writer.create(humJson, "/humidity", number_t(humidity));
-        writer.join(payload, 3, luxJson, tempJson, humJson);
+        // object_t tempHisJson, humHisJson, luxHisJson, payloadHis;
+        // JsonWriter writerHis;
+        // writerHis.create(luxHisJson, "/light", number_t(lux));
+        // writerHis.create(tempHisJson, "/temp", number_t(temp));
+        // writerHis.create(humHisJson, "/humidity", number_t(humidity));
+        // writerHis.join(payloadHis, 3, luxHisJson, tempHisJson, humHisJson);
 
-        Database.set<object_t>(aClient, path, payload, processData);
+        Database.set<object_t>(aClient, pathHis, payload, processData);
       }
-      // json.set("light", lux);
-      // json.set("temp", temp);
-      // json.set("humid", humidity);
-
-      // Database.set<String>(aClient, "liveData", json, processData);
     }
   }
   delay(10);
+}
+
+object_t JsonFileCreator(float lux, float temp, float humidity) {
+  object_t tempJson, humJson, luxJson, luxConvertedJson, payload;
+  JsonWriter writer;
+
+  writer.create(luxJson, "/light", number_t(lux));
+  writer.create(luxConvertedJson, "/lightConverted", number_t(lux*0.0185));
+  writer.create(tempJson, "/temp", number_t(temp));
+  writer.create(humJson, "/humidity", number_t(humidity));
+
+  writer.join(payload, 4, luxJson, luxConvertedJson, tempJson, humJson);
+
+  return payload;
 }
 
 void WiFiReset() {

@@ -419,7 +419,7 @@
     const db = getDatabase(app);
 
     async function liveHumid() {
-      onValue(ref(db, 'liveData/humid'), (snapshot) => {
+      onValue(ref(db, 'liveData/humidity'), (snapshot) => {
         if(snapshot.exists()) {
           const value = snapshot.val();
           humidEl.textContent = value;
