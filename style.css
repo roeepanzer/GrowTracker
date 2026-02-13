@@ -113,6 +113,15 @@ h1 {
   font-size:clamp(38px,6vw,64px);
 }
 
+.lightConverted {
+  position:absolute;
+  bottom:22px;
+  left:50%;
+  transform:translateX(-50%);
+  font-weight:700;
+  font-size:clamp(16px,2.2vw,20px);
+}
+
 /* Unit at the bottom of the circle */
 .gauge__unit{
   position:absolute;

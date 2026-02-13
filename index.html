@@ -9,7 +9,7 @@
 </head>
 <body>
   <div id="headline">
-    <h1>Firebase Realtime Database</h1>
+    <h1>Grow Tracker</h1>
     <div id="notification">This is a notification
       <div id="windNotification">Wind Notification</div>
       <div id="tempNotification">Temp Notification</div>
@@ -46,6 +46,7 @@
       <div class="gauge__title">Light</div>
       <div class="gauge__dial">
         <div class="gauge__value" id="lightView">NoLight</div>
+        <div class="lightConverted">PPFD: <nobr id="lightConverted">NoValue</nobr>µmol·m⁻²·s⁻¹</div>
         <div class="gauge__unit">lux</div>
       </div>
     </section>
@@ -402,6 +403,7 @@
     
     // const log = (...args) => {console.log(...args); document.getElementById('log').textContent += args.join(' ') + '\n'; };
     const lightEl = document.getElementById('lightView');
+    const lightConvEl = document.getElementById('lightConverted');
     const tempEl = document.getElementById('tempView');
     const humidEl = document.getElementById('humidView');
 
@@ -444,20 +446,29 @@
         }
       });
     }
-    
-    async function onValueLiveGeneralData() {
-      onValue(ref(db, 'test'), (snapshot) => {
+
+    async function liveLightConverted() {
+      onValue(ref(db, 'liveData/lightConverted'), (snapshot) => {
         if(snapshot.exists()) {
           const value = snapshot.val();
-          log("---------");
-          log("General value is: " + value);
-          log("int value is: " + value.int);
-          log("float value is: " + value.float);
-          log("---------");
-          GeneralEl.textContent = value;
+          lightConvEl.textContent = value;
         }
       });
     }
+    
+    // async function onValueLiveGeneralData() {
+    //   onValue(ref(db, 'test'), (snapshot) => {
+    //     if(snapshot.exists()) {
+    //       const value = snapshot.val();
+    //       log("---------");
+    //       log("General value is: " + value);
+    //       log("int value is: " + value.int);
+    //       log("float value is: " + value.float);
+    //       log("---------");
+    //       GeneralEl.textContent = value;
+    //     }
+    //   });
+    // }
     
     async function testConn() {
       statusEl.textContent = 'Writing test value…';
@@ -466,6 +477,7 @@
     };
   
     liveLight();
+    liveLightConverted();
     liveTemp();
     liveHumid();
   </script>
