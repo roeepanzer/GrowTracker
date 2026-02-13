@@ -399,7 +399,9 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-    import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+    // import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
     
     // const log = (...args) => {console.log(...args); document.getElementById('log').textContent += args.join(' ') + '\n'; };
     const lightEl = document.getElementById('lightView');
@@ -418,6 +420,7 @@
       measurementId: "G-85VLDXL87W"
     };
     const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
     const db = getDatabase(app);
 
     async function liveHumid() {
@@ -475,11 +478,21 @@
       set(ref(db, 'test/connection'), {status: "ok", timeStamp: Date.now() });
       log('Write succeeded');
     };
-  
-    liveLight();
-    liveLightConverted();
-    liveTemp();
-    liveHumid();
+
+    // Sign in so Realtime Database rules allow read (auth !== null)
+    async function initLiveData() {
+      try {
+        await signInAnonymously(auth);
+      } catch (e) {
+        console.error('Firebase auth failed:', e);
+        return;
+      }
+      liveLight();
+      liveLightConverted();
+      liveTemp();
+      liveHumid();
+    }
+    initLiveData();
   </script>
 </body>
 </html>

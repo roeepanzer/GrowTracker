@@ -1,0 +1,12 @@
+{
+  "rules": {
+    "liveData": {
+      ".read": "auth !== null",
+      ".write": "auth !== null"
+    },
+    "test": {
+      ".read": "auth !== null",
+      ".write": "auth !== null"
+    }
+  }
+}
