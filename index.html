@@ -76,10 +76,10 @@
     </section>
   </div>
 
-  <div class="lightAmount">
+  <!-- <div class="lightAmount">
     <h2>Light amount of <nobr id="todayLight"></nobr> so far</h2>
     <diV><nobr id="lightAmount_micro"></nobr>µmol·m⁻²·s⁻¹</diV>
-  </div>
+  </div> -->
 
   <div id="weather">
     <h2>Current weather</h2>
@@ -375,13 +375,13 @@
       getAndSetForecast(forecastURL);
     </script>
     
-    <h2>Weather Forcast</h2>
+    <!-- <h2>Weather Forcast</h2>
     <a class="weatherwidget-io" href="https://forecast7.com/en/51d796d13/kleve/" data-label_1="KLEVE" data-label_2="WEATHER" data-icons="Climacons" data-days="3" data-theme="original" >KLEVE WEATHER</a>
   
   </div>
   <script>
   !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-  </script>
+  </script> -->
 
   <div id="pastWeather">
     <div id="Day1Graph" style="width:100%;max-width:700px"></div>
@@ -412,63 +412,63 @@
     const lightConvEl = document.getElementById('lightConverted');
     const tempEl = document.getElementById('tempView');
     const humidEl = document.getElementById('humidView');
-    const todayLightEl = document.getElementById('todayLight');
-    const lightAmountMicroEl = document.getElementById('lightAmount_micro');
+    // const todayLightEl = document.getElementById('todayLight');
+    // const lightAmountMicroEl = document.getElementById('lightAmount_micro');
 
     // Daily PPFD sum: integrate lightConverted (µmol·m⁻²·s⁻¹) over time → store in µmol·m⁻², display as mol·m⁻² (DLI)
-    let dailyLightSum = 0;
-    let lastLightConvertedTimestamp = null;
-    let currentDayKey = null; // 'YYYY-MM-DD' for midnight detection and Firebase key
+    // let dailyLightSum = 0;
+    // let lastLightConvertedTimestamp = null;
+    // let currentDayKey = null; // 'YYYY-MM-DD' for midnight detection and Firebase key
 
-    function getDateKey(date) {
-      const y = date.getFullYear();
-      const m = String(date.getMonth() + 1).padStart(2, '0');
-      const d = String(date.getDate()).padStart(2, '0');
-      return `${y}-${m}-${d}`;
-    }
+    // function getDateKey(date) {
+    //   const y = date.getFullYear();
+    //   const m = String(date.getMonth() + 1).padStart(2, '0');
+    //   const d = String(date.getDate()).padStart(2, '0');
+    //   return `${y}-${m}-${d}`;
+    // }
 
-    function updateTodayTitle() {
-      const now = new Date();
-      const day = String(now.getDate()).padStart(2, '0');
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const year = now.getFullYear();
-      todayLightEl.textContent = `${day}.${month}.${year}`;
-    }
+    // function updateTodayTitle() {
+    //   const now = new Date();
+    //   const day = String(now.getDate()).padStart(2, '0');
+    //   const month = String(now.getMonth() + 1).padStart(2, '0');
+    //   const year = now.getFullYear();
+    //   todayLightEl.textContent = `${day}.${month}.${year}`;
+    // }
 
-    function updateSumDisplay() {
-      const dliMol = dailyLightSum / 1e6; // µmol·m⁻² → mol·m⁻²
-      lightAmountMicroEl.textContent = dliMol.toFixed(2);
-    }
+    // function updateSumDisplay() {
+    //   const dliMol = dailyLightSum / 1e6; // µmol·m⁻² → mol·m⁻²
+    //   lightAmountMicroEl.textContent = dliMol.toFixed(2);
+    // }
 
-    function checkMidnightAndReset() {
-      const now = new Date();
-      const todayKey = getDateKey(now);
-      if (currentDayKey !== null && currentDayKey !== todayKey) {
-        // Day changed: save previous day's sum to Firebase, then reset
-        const prevDayKey = currentDayKey;
-        const sumToSave = dailyLightSum / 1e6; // store as mol·m⁻²
-        set(ref(db, `dailyLightSums/${prevDayKey}`), sumToSave).then(() => {
-          dailyLightSum = 0;
-          lastLightConvertedTimestamp = null;
-          currentDayKey = todayKey;
-          updateTodayTitle();
-          updateSumDisplay();
-        }).catch((err) => {
-          console.error('Failed to save daily light sum:', err);
-          dailyLightSum = 0;
-          lastLightConvertedTimestamp = null;
-          currentDayKey = todayKey;
-          updateTodayTitle();
-          updateSumDisplay();
-        });
-        return;
-      }
-      if (currentDayKey === null) {
-        currentDayKey = todayKey;
-        updateTodayTitle();
-        updateSumDisplay();
-      }
-    }
+    // function checkMidnightAndReset() {
+    //   const now = new Date();
+    //   const todayKey = getDateKey(now);
+    //   if (currentDayKey !== null && currentDayKey !== todayKey) {
+    //     // Day changed: save previous day's sum to Firebase, then reset
+    //     const prevDayKey = currentDayKey;
+    //     const sumToSave = dailyLightSum / 1e6; // store as mol·m⁻²
+    //     set(ref(db, `dailyLightSums/${prevDayKey}`), sumToSave).then(() => {
+    //       dailyLightSum = 0;
+    //       lastLightConvertedTimestamp = null;
+    //       currentDayKey = todayKey;
+    //       updateTodayTitle();
+    //       updateSumDisplay();
+    //     }).catch((err) => {
+    //       console.error('Failed to save daily light sum:', err);
+    //       dailyLightSum = 0;
+    //       lastLightConvertedTimestamp = null;
+    //       currentDayKey = todayKey;
+    //       updateTodayTitle();
+    //       updateSumDisplay();
+    //     });
+    //     return;
+    //   }
+    //   if (currentDayKey === null) {
+    //     currentDayKey = todayKey;
+    //     updateTodayTitle();
+    //     updateSumDisplay();
+    //   }
+    // }
 
     const firebaseConfig = {
       apiKey: "AIzaSyAVMPlPrVKRvZ6VPdyXHlmxEQjmL1tmges",
@@ -514,17 +514,18 @@
     async function liveLightConverted() {
       onValue(ref(db, 'liveData/lightConverted'), (snapshot) => {
         if(snapshot.exists()) {
-          const value = Number(snapshot.val());
-          if (!Number.isNaN(value) && value >= 0) {
-            const now = Date.now();
-            if (lastLightConvertedTimestamp !== null) {
-              const dtSeconds = (now - lastLightConvertedTimestamp) / 1000;
-              dailyLightSum += value * dtSeconds * 10; // ×10: ESP32 sends every 10s for more accurate DLI
-              updateSumDisplay();
-            }
-            lastLightConvertedTimestamp = now;
-          }
+          // const value = Number(snapshot.val());
           lightConvEl.textContent = snapshot.val();
+          // if (!Number.isNaN(value) && value >= 0) {
+          //   const now = Date.now();
+          //   if (lastLightConvertedTimestamp !== null) {
+          //     const dtSeconds = (now - lastLightConvertedTimestamp) / 1000;
+          //     dailyLightSum += value * dtSeconds * 10; // ×10: ESP32 sends every 10s for more accurate DLI
+          //     updateSumDisplay();
+          //   }
+          //   lastLightConvertedTimestamp = now;
+          // }
+          
         }
       });
     }
