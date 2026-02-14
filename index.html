@@ -545,10 +545,10 @@
         console.error('Firebase auth failed:', e);
         return;
       }
-      currentDayKey = getDateKey(new Date());
-      updateTodayTitle();
-      updateSumDisplay();
-      setInterval(checkMidnightAndReset, 60000); // check every minute for midnight
+      // currentDayKey = getDateKey(new Date());
+      // updateTodayTitle();
+      // updateSumDisplay();
+      // setInterval(checkMidnightAndReset, 60000); // check every minute for midnight
       liveLight();
       liveLightConverted();
       liveTemp();
