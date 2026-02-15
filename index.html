@@ -429,7 +429,8 @@
     get(query(ref(db, 'historyData'), orderByKey(), limitToFirst(1))).then((snapshot) => {
         if(snapshot.exists()) {
           const data = snapshot.val();
-          console.log("First epoch:", Object.keys(data)[0]);
+          const firstEpochKey = Object.keys(data)[0];
+          console.log("First epoch:", firstEpochKey);
 
           const date = new Date(Number(firstEpochKey) * 1000);
           const minDate = date.toISOString().split('T')[0];
