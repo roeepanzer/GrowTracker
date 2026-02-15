@@ -403,7 +403,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
     import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-    import { getDatabase, ref, set, onValue, get } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+    import { getDatabase, ref, set, onValue, get, query, orderByKey, limitToFirst } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
     
     const firebaseConfig = {
       apiKey: "AIzaSyAVMPlPrVKRvZ6VPdyXHlmxEQjmL1tmges",
@@ -426,11 +426,15 @@
     const humidEl = document.getElementById('humidView');
 
     //have an action that gets the earliest date from the database History 
-    get(ref(db, 'historyData')).then((snapshot) => {
+    get(query(ref(db, 'historyData'), orderByKey(), limitToFirst(1))).then((snapshot) => {
         if(snapshot.exists()) {
-          console.log(snapshot.val());
+          const data = snapshot.val();
+          console.log("First epoch:", Object.keys(data)[0]);
 
-          const minDate = snapshot.val(); //incorrect yet
+          const date = new Date(Number(firstEpochKey) * 1000);
+          const minDate = date.toISOString().split('T')[0];
+
+          // const minDate = snapshot.val(); //incorrect yet
           document.getElementById("inputDate").setAttribute("min", minDate);
         }
       }).catch((error) => {
