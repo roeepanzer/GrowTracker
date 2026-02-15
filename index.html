@@ -434,6 +434,7 @@
 
           const date = new Date(Number(firstEpochKey) * 1000);
           const minDate = date.toISOString().split('T')[0];
+          console.log("First date:", minDate);
 
           // const minDate = snapshot.val(); //incorrect yet
           document.getElementById("inputDate").setAttribute("min", minDate);
@@ -442,8 +443,44 @@
     );
     
 
-    function getLightAmount() {
+    async function getLightAmount() {
+      let lightSum = 0;
+      const chosenDate = document.getElementById("inputDate").value;
 
+      //need to get all the records
+      //go over each child and compare its date to the chosen date
+      //sum up the 'lightConverted' value
+
+      const snapshot = await get(ref(db, 'historyData'));
+
+      if(snapshot.exists()) {
+        snapshot.forEach((childSnapshot) => {
+          const epochKey = childSnapshot.key;
+          const date = new Date(Number(epochKey) * 1000).toString().split('T')[0];
+
+          if(date==chosenDate){
+            lightSum += childSnapshot.val().lightConverted * 1800;
+          }
+        });
+      }
+
+      // get(query(ref(db, 'historyData'))).then((snapshot) => {
+      //   if(snapshot.exists()) {
+      //     snapshot.forEach((childSnapshot) => {
+      //       const EpochKey = Object.keys(childSnapshot.val())[0];
+      //       const date = new Date(Number(EpochKey) * 1000).toISOString().split('T')[0];
+
+      //       if(date == chosenDate){
+      //         //add value to sum
+      //         lightSum += childSnapshot.val().lightConverted * 1800;
+      //       }
+      //     })
+      //   }
+      // });
+
+
+      document.getElementById("chosenDate").innerText = chosenDate;
+      document.getElementById("lightAmountVal").innerText = lightSum; //example, need to add the actual sum
     }
     // const todayLightEl = document.getElementById('todayLight');
     // const lightAmountMicroEl = document.getElementById('lightAmount_micro');
