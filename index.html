@@ -151,6 +151,13 @@
           document.getElementById("windLeAPI").innerHTML = windLevelSet(result.current.wind_speed_10m);
           document.getElementById("windGuLeAPI").innerHTML = windLevelSet(result.current.wind_gusts_10m);
           document.getElementById("timestamp").innerHTML = result.current.time;
+
+          if(result.current.temperature_2m >30){
+            document.getElementById("tempNotification").innerHTML = "<b style=\"color:red;\">Temperature is higher than 30 degrees</b>";
+          }
+          else {
+            document.getElementById("tempNotification").innerHTML = "";
+          }
         }
         catch (error) {
           console.error(error.message);
