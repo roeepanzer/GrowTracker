@@ -76,10 +76,15 @@
     </section>
   </div>
 
-  <!-- <div class="lightAmount">
-    <h2>Light amount of <nobr id="todayLight"></nobr> so far</h2>
-    <diV><nobr id="lightAmount_micro"></nobr>µmol·m⁻²·s⁻¹</diV>
-  </div> -->
+  <div class="lightAmount">
+    <!--Title here-->
+    <h2>Choose a date</h2>
+    <!--Button here to choose the desired date-->
+    <input type="date" id="inputDate">
+    <button onClick="getLightAmount()">See the Light!</button>
+    <!--Value here with a text-->
+    <div>On the <nobr id="chosenDate">DD/MM/YYYY</nobr> you had <b><nobr id="lightAmountVal">amount</nobr></b> [mol]</div>
+  </div>
 
   <div id="weather">
     <h2>Current weather</h2>
@@ -193,7 +198,7 @@
           return 12;
         }
         else {
-          return -1;
+          return windLevelSet(windSpeed+1);
         }
       }
 
@@ -375,13 +380,6 @@
       getAndSetForecast(forecastURL);
     </script>
     
-    <!-- <h2>Weather Forcast</h2>
-    <a class="weatherwidget-io" href="https://forecast7.com/en/51d796d13/kleve/" data-label_1="KLEVE" data-label_2="WEATHER" data-icons="Climacons" data-days="3" data-theme="original" >KLEVE WEATHER</a>
-  
-  </div>
-  <script>
-  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-  </script> -->
 
   <div id="pastWeather">
     <div id="Day1Graph" style="width:100%;max-width:700px"></div>
@@ -405,13 +403,42 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
     import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
+    import { getDatabase, ref, set, onValue, get } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-database.js";
     
+    const firebaseConfig = {
+      apiKey: "AIzaSyAVMPlPrVKRvZ6VPdyXHlmxEQjmL1tmges",
+      authDomain: "learning-d6e02.firebaseapp.com",
+      databaseURL: "https://learning-d6e02-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "learning-d6e02",
+      storageBucket: "learning-d6e02.firebasestorage.app",
+      messagingSenderId: "119584364745",
+      appId: "1:119584364745:web:62fe63a64dddbc8c329518",
+      measurementId: "G-85VLDXL87W"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
     // const log = (...args) => {console.log(...args); document.getElementById('log').textContent += args.join(' ') + '\n'; };
     const lightEl = document.getElementById('lightView');
     const lightConvEl = document.getElementById('lightConverted');
     const tempEl = document.getElementById('tempView');
     const humidEl = document.getElementById('humidView');
+
+    //have an action that gets the earliest date from the database History 
+    get(ref(db, 'historyData'), (snapshot) => {
+        if(snapshot.exists()) {
+          console.log(snapshot.val());
+
+          const minDate = snapshot.val(); //incorrect yet
+          document.getElementById("inputDate").setAttribute("min", minDate);
+        }
+      });
+    
+
+    function getLightAmount() {
+
+    }
     // const todayLightEl = document.getElementById('todayLight');
     // const lightAmountMicroEl = document.getElementById('lightAmount_micro');
 
@@ -470,19 +497,6 @@
     //   }
     // }
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyAVMPlPrVKRvZ6VPdyXHlmxEQjmL1tmges",
-      authDomain: "learning-d6e02.firebaseapp.com",
-      databaseURL: "https://learning-d6e02-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "learning-d6e02",
-      storageBucket: "learning-d6e02.firebasestorage.app",
-      messagingSenderId: "119584364745",
-      appId: "1:119584364745:web:62fe63a64dddbc8c329518",
-      measurementId: "G-85VLDXL87W"
-    };
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getDatabase(app);
 
     async function liveHumid() {
       onValue(ref(db, 'liveData/humidity'), (snapshot) => {
@@ -525,7 +539,6 @@
           //   }
           //   lastLightConvertedTimestamp = now;
           // }
-          
         }
       });
     }

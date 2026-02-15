@@ -97,9 +97,7 @@ void loop() {
 
       //DHT22 - measuring temp and humidity
       float temp = dht22.getTemperature();
-      // Database.set<float>(aClient, "liveData/temp", temp, processData);
       float humidity = dht22.getHumidity();
-      // Database.set<float>(aClient, "liveData/humid", humidity, processData);
 
       object_t payload = JsonFileCreator(lux, temp, humidity);
       Database.set<object_t>(aClient, "liveData", payload, processData);
@@ -108,14 +106,6 @@ void loop() {
       if (millis() - lastHistoryTime >= historyInterval) {
         lastHistoryTime = millis();
         String pathHis = "historyData/" + String(rtc.getEpoch());
-
-        // object_t = JSON placeholder; value at path must be the payload only (light, temp, humidity)
-        // object_t tempHisJson, humHisJson, luxHisJson, payloadHis;
-        // JsonWriter writerHis;
-        // writerHis.create(luxHisJson, "/light", number_t(lux));
-        // writerHis.create(tempHisJson, "/temp", number_t(temp));
-        // writerHis.create(humHisJson, "/humidity", number_t(humidity));
-        // writerHis.join(payloadHis, 3, luxHisJson, tempHisJson, humHisJson);
 
         Database.set<object_t>(aClient, pathHis, payload, processData);
       }
