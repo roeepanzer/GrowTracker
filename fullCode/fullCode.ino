@@ -115,15 +115,16 @@ void loop() {
 }
 
 object_t JsonFileCreator(float lux, float temp, float humidity) {
-  object_t tempJson, humJson, luxJson, luxConvertedJson, payload;
+  object_t tempJson, humJson, luxJson, luxConvertedJson, timestamp, payload;
   JsonWriter writer;
 
   writer.create(luxJson, "/light", number_t(lux));
   writer.create(luxConvertedJson, "/lightConverted", number_t(lux*0.0185));
   writer.create(tempJson, "/temp", number_t(temp));
   writer.create(humJson, "/humidity", number_t(humidity));
+  writer.create(timestamp, "/timestamp", number_t(rtc.getEpoch()));
 
-  writer.join(payload, 4, luxJson, luxConvertedJson, tempJson, humJson);
+  writer.join(payload, 5, luxJson, luxConvertedJson, tempJson, humJson, timestamp);
 
   return payload;
 }
