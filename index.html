@@ -459,6 +459,7 @@
           const date = new Date(Number(epochKey) * 1000).toString().split('T')[0];
 
           if(date==chosenDate){
+            console.log("Light Value added:", childSnapshot.val().lightConverted * 1800);
             lightSum += childSnapshot.val().lightConverted * 1800;
           }
         });
