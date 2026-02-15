@@ -443,7 +443,7 @@
     );
     
 
-    function getLightAmount() {
+    window.getLightAmount = async function () {
       let lightSum = 0;
       const chosenDate = document.getElementById("inputDate").value;
 
@@ -451,7 +451,7 @@
       //go over each child and compare its date to the chosen date
       //sum up the 'lightConverted' value
 
-      const snapshot = get(ref(db, 'historyData'));
+      const snapshot = await get(ref(db, 'historyData'));
 
       if(snapshot.exists()) {
         snapshot.forEach((childSnapshot) => {
