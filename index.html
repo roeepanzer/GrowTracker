@@ -81,7 +81,7 @@
     <h2>Choose a date</h2>
     <!--Button here to choose the desired date-->
     <input type="date" id="inputDate">
-    <button onClick="getLightAmount()">See the Light!</button>
+    <button onclick="getLightAmount()">See the Light!</button>
     <!--Value here with a text-->
     <div>On the <nobr id="chosenDate">DD/MM/YYYY</nobr> you had <b><nobr id="lightAmountVal">amount</nobr></b> [mol]</div>
   </div>
@@ -443,7 +443,7 @@
     );
     
 
-    function getLightAmount() {
+    async function getLightAmount() {
       let lightSum = 0;
       const chosenDate = document.getElementById("inputDate").value;
 
@@ -451,7 +451,7 @@
       //go over each child and compare its date to the chosen date
       //sum up the 'lightConverted' value
 
-      const snapshot = get(ref(db, 'historyData'));
+      const snapshot = await get(ref(db, 'historyData'));
 
       if(snapshot.exists()) {
         snapshot.forEach((childSnapshot) => {
