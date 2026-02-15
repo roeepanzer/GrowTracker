@@ -459,7 +459,7 @@
           const date = new Date(Number(epochKey) * 1000).toISOString().split('T')[0];
 
           console.log("chosenDate:", chosenDate);
-          console.log("epoch:", childSnapshot.key, "dateStr:", dateStr, "lightConverted:", childSnapshot.val().lightConverted);
+          console.log("epoch:", childSnapshot.key, "dateStr:", date, "lightConverted:", childSnapshot.val().lightConverted);
 
           if(date==chosenDate){
             console.log("Light Value added:", childSnapshot.val().lightConverted * 1800);
