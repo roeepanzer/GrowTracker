@@ -6,6 +6,7 @@
   <title>Grow tracker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/weather-icons.min.css">
 </head>
 <body>
   <div id="headline">
@@ -397,6 +398,26 @@
 
       getAndSetForecast(forecastURL);
     </script>
+
+    <h2>Weather Forcast</h2>
+    <div id="forcast2">
+      <input type="date" id="forecastDate">
+      <button onclick="getForecast()">Get Forecast</button>
+      <div id="forecastResult">
+        <div class="forecastItem">
+          <div class="forecastTime">Time</div>
+          <div class="forecastIcon"><i class="wi wi-day-sunny"></i></div>
+          <div class="forecastTemp">Temp</div>
+          <div class="forecastHumid">Humid</div>
+          <div class="forecastPrecip">Precip</div>
+          <div class="forecastCloud">Cloud</div>
+          <div class="forecastWind">Wind</div>
+          <div class="forecastGusts">Gusts</div>
+          <div class="forecastDirection">Direction</div>
+        </div>
+      </div>
+
+    </div>
     
 
   <div id="pastWeather">
