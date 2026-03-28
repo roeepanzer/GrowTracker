@@ -285,6 +285,7 @@
                       ];
 
       const today = new Date();
+      console.log("today is " + today);
       const tomorrow = new Date(today);
       tomorrow.setDate(today.getDate() + 1);
       const dayAfter = new Date(today);
@@ -460,23 +461,84 @@
         //The user selects a date -> Today = 0, tomorrow = 1, day after = 2
         //Given only the options of today, tomorrow and the day after for input
         //Have a loop that creates the forecastItem for each hour
+
+        
         minDate = new Date().toISOString().split('T')[0];
         maxDate = new Date(new Date().setDate(new Date().getDate() + 2)).toISOString().split('T')[0];
-        document.getElementById("forecastDate").setAttribute("min", minDate);
-        document.getElementById("forecastDate").setAttribute("max", maxDate);
-        document.getElementById("forecastDate").setAttribute("value", minDate);
 
-        if(document.getElementById("forecastDate").value == minDate) {
+        document.getElementById("forecastDate").setAttribute("min", today);
+        document.getElementById("forecastDate").setAttribute("max", dayAfter);
+        document.getElementById("forecastDate").setAttribute("value", today);
+
+        try{
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+          }
+          let result = await response.json();
+
+          // Populate day1 values
+          for (let i = day1Begin; i < day3End; i++) {
+            if(i <= day1End) {
+              dailyForecast[0][i][0] = result.hourly.time[i];
+              dailyForecast[0][i][1] = result.hourly.temperature_2m[i];
+              dailyForecast[0][i][2] = result.hourly.relative_humidity_2m[i];
+              dailyForecast[0][i][3] = result.hourly.apparent_temperature[i];
+              dailyForecast[0][i][4] = result.hourly.precipitation[i];
+              dailyForecast[0][i][5] = result.hourly.precipitation_probability[i];
+              dailyForecast[0][i][6] = result.hourly.cloud_cover[i];
+              dailyForecast[0][i][7] = result.hourly.wind_speed_80m[i];
+              dailyForecast[0][i][8] = result.hourly.wind_direction_80m[i];
+              dailyForecast[0][i][9] = result.hourly.wind_gusts_10m[i];
+            }
+            else if(i >= day2Begin && i <= day2End) {
+              dailyForecast[1][i-day2Begin][0] = result.hourly.time[i];
+              dailyForecast[1][i-day2Begin][1] = result.hourly.temperature_2m[i];
+              dailyForecast[1][i-day2Begin][2] = result.hourly.relative_humidity_2m[i];
+              dailyForecast[1][i-day2Begin][3] = result.hourly.apparent_temperature[i];
+              dailyForecast[1][i-day2Begin][4] = result.hourly.precipitation[i];
+              dailyForecast[1][i-day2Begin][5] = result.hourly.precipitation_probability[i];
+              dailyForecast[1][i-day2Begin][6] = result.hourly.cloud_cover[i];
+              dailyForecast[1][i-day2Begin][7] = result.hourly.wind_speed_80m[i];
+              dailyForecast[1][i-day2Begin][8] = result.hourly.wind_direction_80m[i];
+              dailyForecast[1][i-day2Begin][9] = result.hourly.wind_gusts_10m[i];
+            }
+            else if(i >= day3Begin && i <= day3End) {
+              dailyForecast[2][i-day3Begin][0] = result.hourly.time[i];
+              dailyForecast[2][i-day3Begin][1] = result.hourly.temperature_2m[i];
+              dailyForecast[2][i-day3Begin][2] = result.hourly.relative_humidity_2m[i];
+              dailyForecast[2][i-day3Begin][3] = result.hourly.apparent_temperature[i];
+              dailyForecast[2][i-day3Begin][4] = result.hourly.precipitation[i];
+              dailyForecast[2][i-day3Begin][5] = result.hourly.precipitation_probability[i];
+              dailyForecast[2][i-day3Begin][6] = result.hourly.cloud_cover[i];
+              dailyForecast[2][i-day3Begin][7] = result.hourly.wind_speed_80m[i];
+              dailyForecast[2][i-day3Begin][8] = result.hourly.wind_direction_80m[i];
+              dailyForecast[2][i-day3Begin][9] = result.hourly.wind_gusts_10m[i];
+            }
+          }
+        }
+        catch (error) {
+          console.error(error.message);
+        }
+
+        if(document.getElementById("forecastDate").value == today) {
           for(let i = 0; i < 24; i++) {
             document.getElementById("forecastResult").innerHTML += createForecastItem(dailyForecast[0], i);
           }
         }
-        for(let i = 0; i < 24; i++) {
-          if(document.getElementById("forecastDate").value == minDate) {
-            const forecastItem = createForecastItem(i);
-            document.getElementById("forecastResult").appendChild(forecastItem);
+
+        else if(document.getElementById("forecastDate").value == tomorrow) {
+          for(let i = 0; i < 24; i++) {
+            document.getElementById("forecastResult").innerHTML += createForecastItem(dailyForecast[1], i);
+          }
         }
-      }
+
+        else if(document.getElementById("forecastDate").value == dayAfter) {
+          for(let i = 0; i < 24; i++) {
+            document.getElementById("forecastResult").innerHTML += createForecastItem(dailyForecast[2], i);
+          }
+        }
+        
     }
     </script>
 
