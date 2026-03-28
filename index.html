@@ -275,28 +275,13 @@
       const day3Begin = 48;
       const day3End = 72;
 
-      day1array = [[], [], [], [], [], [], [], [], [], []];
-      day2array = [[], [], [], [], [], [], [], [], [], []];
-      day3array = [[], [], [], [], [], [], [], [], [], []];
-
-      dailyForecas = [ [[], [], [], [], [], [], [], [], [], []], // Day 1
-                        [[], [], [], [], [], [], [], [], [], []], // Day 2
-                        [[], [], [], [], [], [], [], [], [], []] // Day 3
-                      ];
-
       const today = new Date();
-      console.log("today is " + today.toISOString().split('T')[0]);
-      const tomorrow = new Date(today);
-      tomorrow.setDate(today.getDate() + 1);
-      const dayAfter = new Date(today);
-      dayAfter.setDate(today.getDate() + 2);
-
-      document.getElementById("day1date").innerHTML = today.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
-      document.getElementById("day2date").innerHTML = tomorrow.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
-      document.getElementById("day3date").innerHTML = dayAfter.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
-      document.getElementById("day1day").innerHTML = today.toLocaleDateString('en-GB', { weekday: 'long' });
-      document.getElementById("day2day").innerHTML = tomorrow.toLocaleDateString('en-GB', { weekday: 'long' });
-      document.getElementById("day3day").innerHTML = dayAfter.toLocaleDateString('en-GB', { weekday: 'long' });
+      // const tomorrow = new Date(today);
+      // tomorrow.setDate(today.getDate() + 1);
+      const tomorrow = new Date(today).setDate(today.getDate() + 1);
+      // const dayAfter = new Date(today);
+      // dayAfter.setDate(today.getDate() + 2);
+      const dayAfter = new Date(today).setDate(today.getDate() + 2);
 
       // let day1values = Array(24).fill(null).map(() => Array(10).fill(0));
       // let day2values = Array(24).fill(null).map(() => Array(10).fill(0));
@@ -422,14 +407,14 @@
         return forecastItem;
       }
 
+      document.getElementById("forecastDate").setAttribute("min", today.toISOString().split('T')[0]);
+      document.getElementById("forecastDate").setAttribute("max", dayAfter.toISOString().split('T')[0]);
+      document.getElementById("forecastDate").setAttribute("value", today.toISOString().split('T')[0]);
+
       window.getForecast = async function() {
 
         let forecastItemHtml = document.createElement("div");
         let forecastDateChosen = document.getElementById("forecastDate").value;
-        
-        document.getElementById("forecastDate").setAttribute("min", today.toJSON().split('T')[0]);
-        document.getElementById("forecastDate").setAttribute("max", dayAfter.toJSON().split('T')[0]);
-        document.getElementById("forecastDate").setAttribute("value", today.toJSON().split('T')[0]);
 
         try{
           const response = await fetch(forecastURL);
@@ -483,7 +468,7 @@
         }
 
         if(forecastDateChosen == today.toISOString().split('T')[0]) {
-          document.getElementById("forecastDayTitle").innerHTML = today.toLocaleDateString('en-GB', { weekday: 'long' }) + ", " + forecastDateChosen;
+          document.getElementById("forecastDayTitle").innerHTML = today.toLocaleDateString('en-GB', { weekday: 'long' }) + ", " + today.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
           for(let i = 0; i < 24; i++) {
             forecastItemHtml.appendChild(createForecastItem(dailyForecast[0], i));
           }
@@ -497,7 +482,7 @@
         }
 
         else if(forecastDateChosen == dayAfter.toISOString().split('T')[0]) {
-          document.getElementById("forecastDayTitle").innerHTML = dayAfter.toLocaleDateString('en-GB', { weekday: 'long' }) + ", " + forecastDateChosen;
+          document.getElementById("forecastDayTitle").innerHTML = dayAfter.toLocaleDateString('en-GB', { weekday: 'long' }) + ", " + dayAfter.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
           for(let i = 0; i < 24; i++) {
             forecastItemHtml.appendChild(createForecastItem(dailyForecast[2], i));
           }
@@ -513,7 +498,7 @@
     <h2>Weather Forcast</h2>
     <input type="date" id="forecastDate">
     <button onclick="getForecast()">Get Forecast</button>
-    <div id="forecastDayTitle"></div>
+    <h2 id="forecastDayTitle"></h2>
     <div id="forcast2">
     </div>
     
