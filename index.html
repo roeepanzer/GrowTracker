@@ -298,152 +298,119 @@
       document.getElementById("day2day").innerHTML = tomorrow.toLocaleDateString('en-GB', { weekday: 'long' });
       document.getElementById("day3day").innerHTML = dayAfter.toLocaleDateString('en-GB', { weekday: 'long' });
 
-      let day1values = Array(24).fill(null).map(() => Array(10).fill(0));
-      let day2values = Array(24).fill(null).map(() => Array(10).fill(0));
-      let day3values = Array(24).fill(null).map(() => Array(10).fill(0));
+      // let day1values = Array(24).fill(null).map(() => Array(10).fill(0));
+      // let day2values = Array(24).fill(null).map(() => Array(10).fill(0));
+      // let day3values = Array(24).fill(null).map(() => Array(10).fill(0));
 
       let dailyForecast = Array.from({length: 3}, () => Array.from({length: 24}, () => Array(10).fill(0)));
 
-      function averageValues(values) {
-        return values.reduce((a, b) => a + b, 0) / values.length;
-      }
+      // function averageValues(values) {
+      //   return values.reduce((a, b) => a + b, 0) / values.length;
+      // }
 
-      function highestValue(values) {
-        return values.reduce((a, b) => a > b ? a : b);
-      }
+      // function highestValue(values) {
+      //   return values.reduce((a, b) => a > b ? a : b);
+      // }
 
-      function lowestValue(values) {
-        return values.reduce((a, b) => a < b ? a : b);
-      }
+      // function lowestValue(values) {
+      //   return values.reduce((a, b) => a < b ? a : b);
+      // }
 
       function formatDecimal(num, decimals = 2) {
         return Number(num).toFixed(decimals);
       }
 
-      async function getAndSetForecast(url) {
-        try{
-          const response = await fetch(url);
-          if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-          }
-          let result = await response.json();
+      // async function getAndSetForecast(url) {
+      //   try{
+      //     const response = await fetch(url);
+      //     if (!response.ok) {
+      //       throw new Error(`Response status: ${response.status}`);
+      //     }
+      //     let result = await response.json();
 
-          // Populate day1 values
-          for (let i = day1Begin; i < day3End; i++) {
-            if(i <= day1End) {
-              day1values[i][0] = result.hourly.time[i];
-              day1values[i][1] = result.hourly.temperature_2m[i]; 
-              day1values[i][2] = result.hourly.relative_humidity_2m[i]; 
-              day1values[i][3] = result.hourly.apparent_temperature[i];
-              day1values[i][4] = result.hourly.precipitation[i];
-              day1values[i][5] = result.hourly.precipitation_probability[i];
-              day1values[i][6] = result.hourly.cloud_cover[i];
-              day1values[i][7] = result.hourly.wind_speed_80m[i]; 
-              day1values[i][8] = result.hourly.wind_direction_80m[i];
-              day1values[i][9] = result.hourly.wind_gusts_10m[i];
+      //     // Populate day1 values
+      //     for (let i = day1Begin; i < day3End; i++) {
+      //       if(i <= day1End) {
+      //         day1values[i][0] = result.hourly.time[i];
+      //         day1values[i][1] = result.hourly.temperature_2m[i]; 
+      //         day1values[i][2] = result.hourly.relative_humidity_2m[i]; 
+      //         day1values[i][3] = result.hourly.apparent_temperature[i];
+      //         day1values[i][4] = result.hourly.precipitation[i];
+      //         day1values[i][5] = result.hourly.precipitation_probability[i];
+      //         day1values[i][6] = result.hourly.cloud_cover[i];
+      //         day1values[i][7] = result.hourly.wind_speed_80m[i]; 
+      //         day1values[i][8] = result.hourly.wind_direction_80m[i];
+      //         day1values[i][9] = result.hourly.wind_gusts_10m[i];
+      //       }
+      //       else if(i >= day2Begin && i <= day2End) {
+      //         day2values[i-day2Begin][0] = result.hourly.time[i];
+      //         day2values[i-day2Begin][1] = result.hourly.temperature_2m[i]; 
+      //         day2values[i-day2Begin][2] = result.hourly.relative_humidity_2m[i]; 
+      //         day2values[i-day2Begin][3] = result.hourly.apparent_temperature[i];
+      //         day2values[i-day2Begin][4] = result.hourly.precipitation[i];
+      //         day2values[i-day2Begin][5] = result.hourly.precipitation_probability[i];
+      //         day2values[i-day2Begin][6] = result.hourly.cloud_cover[i];
+      //         day2values[i-day2Begin][7] = result.hourly.wind_speed_80m[i]; 
+      //         day2values[i-day2Begin][8] = result.hourly.wind_direction_80m[i];
+      //         day2values[i-day2Begin][9] = result.hourly.wind_gusts_10m[i];
+      //       }
+      //       else if(i >= day3Begin && i <= day3End) {
+      //         day3values[i-day3Begin][0] = result.hourly.time[i];
+      //         day3values[i-day3Begin][1] = result.hourly.temperature_2m[i]; 
+      //         day3values[i-day3Begin][2] = result.hourly.relative_humidity_2m[i]; 
+      //         day3values[i-day3Begin][3] = result.hourly.apparent_temperature[i];
+      //         day3values[i-day3Begin][4] = result.hourly.precipitation[i];
+      //         day3values[i-day3Begin][5] = result.hourly.precipitation_probability[i];
+      //         day3values[i-day3Begin][6] = result.hourly.cloud_cover[i];
+      //         day3values[i-day3Begin][7] = result.hourly.wind_speed_80m[i]; 
+      //         day3values[i-day3Begin][8] = result.hourly.wind_direction_80m[i];
+      //         day3values[i-day3Begin][9] = result.hourly.wind_gusts_10m[i];
+      //       }
+      //     }
+      //     day1array = day1values;
+      //     day2array = day2values;
+      //     day3array = day3values;
+      //   }
+      //   catch (error) {
+      //     console.error(error.message);
+      //   }
 
-              dailyForecast[0][i][0] = result.hourly.time[i];
-              dailyForecast[0][i][1] = result.hourly.temperature_2m[i];
-              dailyForecast[0][i][2] = result.hourly.relative_humidity_2m[i];
-              dailyForecast[0][i][3] = result.hourly.apparent_temperature[i];
-              dailyForecast[0][i][4] = result.hourly.precipitation[i];
-              dailyForecast[0][i][5] = result.hourly.precipitation_probability[i];
-              dailyForecast[0][i][6] = result.hourly.cloud_cover[i];
-              dailyForecast[0][i][7] = result.hourly.wind_speed_80m[i];
-              dailyForecast[0][i][8] = result.hourly.wind_direction_80m[i];
-              dailyForecast[0][i][9] = result.hourly.wind_gusts_10m[i];
-            }
-            else if(i >= day2Begin && i <= day2End) {
-              day2values[i-day2Begin][0] = result.hourly.time[i];
-              day2values[i-day2Begin][1] = result.hourly.temperature_2m[i]; 
-              day2values[i-day2Begin][2] = result.hourly.relative_humidity_2m[i]; 
-              day2values[i-day2Begin][3] = result.hourly.apparent_temperature[i];
-              day2values[i-day2Begin][4] = result.hourly.precipitation[i];
-              day2values[i-day2Begin][5] = result.hourly.precipitation_probability[i];
-              day2values[i-day2Begin][6] = result.hourly.cloud_cover[i];
-              day2values[i-day2Begin][7] = result.hourly.wind_speed_80m[i]; 
-              day2values[i-day2Begin][8] = result.hourly.wind_direction_80m[i];
-              day2values[i-day2Begin][9] = result.hourly.wind_gusts_10m[i];
+      //   document.getElementById("day1tempHigh").innerHTML = formatDecimal(highestValue(day1values.map(r => r[1])));
+      //   document.getElementById("day1tempLow").innerHTML = formatDecimal(lowestValue(day1values.map(r => r[1])));
+      //   document.getElementById("day1humid").innerHTML = formatDecimal(averageValues(day1values.map(r => r[2])));
+      //   document.getElementById("day1precip").innerHTML = formatDecimal(averageValues(day1values.map(r => r[4])));
+      //   document.getElementById("day1cloud").innerHTML = formatDecimal(averageValues(day1values.map(r => r[6])));
+      //   document.getElementById("day1wind").innerHTML = formatDecimal(averageValues(day1values.map(r => r[7])));
+      //   document.getElementById("day1gusts").innerHTML = formatDecimal(averageValues(day1values.map(r => r[9])));
+      //   document.getElementById("day1direction").innerHTML = formatDecimal(averageValues(day1values.map(r => r[8])));
 
-              dailyForecast[1][i-day2Begin][0] = result.hourly.time[i];
-              dailyForecast[1][i-day2Begin][1] = result.hourly.temperature_2m[i];
-              dailyForecast[1][i-day2Begin][2] = result.hourly.relative_humidity_2m[i];
-              dailyForecast[1][i-day2Begin][3] = result.hourly.apparent_temperature[i];
-              dailyForecast[1][i-day2Begin][4] = result.hourly.precipitation[i];
-              dailyForecast[1][i-day2Begin][5] = result.hourly.precipitation_probability[i];
-              dailyForecast[1][i-day2Begin][6] = result.hourly.cloud_cover[i];
-              dailyForecast[1][i-day2Begin][7] = result.hourly.wind_speed_80m[i];
-              dailyForecast[1][i-day2Begin][8] = result.hourly.wind_direction_80m[i];
-              dailyForecast[1][i-day2Begin][9] = result.hourly.wind_gusts_10m[i];
-            }
-            else if(i >= day3Begin && i <= day3End) {
-              day3values[i-day3Begin][0] = result.hourly.time[i];
-              day3values[i-day3Begin][1] = result.hourly.temperature_2m[i]; 
-              day3values[i-day3Begin][2] = result.hourly.relative_humidity_2m[i]; 
-              day3values[i-day3Begin][3] = result.hourly.apparent_temperature[i];
-              day3values[i-day3Begin][4] = result.hourly.precipitation[i];
-              day3values[i-day3Begin][5] = result.hourly.precipitation_probability[i];
-              day3values[i-day3Begin][6] = result.hourly.cloud_cover[i];
-              day3values[i-day3Begin][7] = result.hourly.wind_speed_80m[i]; 
-              day3values[i-day3Begin][8] = result.hourly.wind_direction_80m[i];
-              day3values[i-day3Begin][9] = result.hourly.wind_gusts_10m[i];
+      //   document.getElementById("day2tempHigh").innerHTML = formatDecimal(highestValue(day2values.map(r => r[1])));
+      //   document.getElementById("day2tempLow").innerHTML = formatDecimal(lowestValue(day2values.map(r => r[1])));
+      //   document.getElementById("day2humid").innerHTML = formatDecimal(averageValues(day2values.map(r => r[2])));
+      //   document.getElementById("day2precip").innerHTML = formatDecimal(averageValues(day2values.map(r => r[4])));
+      //   document.getElementById("day2cloud").innerHTML = formatDecimal(averageValues(day2values.map(r => r[6])));
+      //   document.getElementById("day2wind").innerHTML = formatDecimal(averageValues(day2values.map(r => r[7])));
+      //   document.getElementById("day2gusts").innerHTML = formatDecimal(averageValues(day2values.map(r => r[9])));
+      //   document.getElementById("day2direction").innerHTML = formatDecimal(averageValues(day2values.map(r => r[8])));
 
-              dailyForecast[2][i-day3Begin][0] = result.hourly.time[i];
-              dailyForecast[2][i-day3Begin][1] = result.hourly.temperature_2m[i];
-              dailyForecast[2][i-day3Begin][2] = result.hourly.relative_humidity_2m[i];
-              dailyForecast[2][i-day3Begin][3] = result.hourly.apparent_temperature[i];
-              dailyForecast[2][i-day3Begin][4] = result.hourly.precipitation[i];
-              dailyForecast[2][i-day3Begin][5] = result.hourly.precipitation_probability[i];
-              dailyForecast[2][i-day3Begin][6] = result.hourly.cloud_cover[i];
-              dailyForecast[2][i-day3Begin][7] = result.hourly.wind_speed_80m[i];
-              dailyForecast[2][i-day3Begin][8] = result.hourly.wind_direction_80m[i];
-              dailyForecast[2][i-day3Begin][9] = result.hourly.wind_gusts_10m[i];
-            }
-          }
-          day1array = day1values;
-          day2array = day2values;
-          day3array = day3values;
-        }
-        catch (error) {
-          console.error(error.message);
-        }
-
-        document.getElementById("day1tempHigh").innerHTML = formatDecimal(highestValue(day1values.map(r => r[1])));
-        document.getElementById("day1tempLow").innerHTML = formatDecimal(lowestValue(day1values.map(r => r[1])));
-        document.getElementById("day1humid").innerHTML = formatDecimal(averageValues(day1values.map(r => r[2])));
-        document.getElementById("day1precip").innerHTML = formatDecimal(averageValues(day1values.map(r => r[4])));
-        document.getElementById("day1cloud").innerHTML = formatDecimal(averageValues(day1values.map(r => r[6])));
-        document.getElementById("day1wind").innerHTML = formatDecimal(averageValues(day1values.map(r => r[7])));
-        document.getElementById("day1gusts").innerHTML = formatDecimal(averageValues(day1values.map(r => r[9])));
-        document.getElementById("day1direction").innerHTML = formatDecimal(averageValues(day1values.map(r => r[8])));
-
-        document.getElementById("day2tempHigh").innerHTML = formatDecimal(highestValue(day2values.map(r => r[1])));
-        document.getElementById("day2tempLow").innerHTML = formatDecimal(lowestValue(day2values.map(r => r[1])));
-        document.getElementById("day2humid").innerHTML = formatDecimal(averageValues(day2values.map(r => r[2])));
-        document.getElementById("day2precip").innerHTML = formatDecimal(averageValues(day2values.map(r => r[4])));
-        document.getElementById("day2cloud").innerHTML = formatDecimal(averageValues(day2values.map(r => r[6])));
-        document.getElementById("day2wind").innerHTML = formatDecimal(averageValues(day2values.map(r => r[7])));
-        document.getElementById("day2gusts").innerHTML = formatDecimal(averageValues(day2values.map(r => r[9])));
-        document.getElementById("day2direction").innerHTML = formatDecimal(averageValues(day2values.map(r => r[8])));
-
-        document.getElementById("day3tempHigh").innerHTML = formatDecimal(highestValue(day3values.map(r => r[1])));
-        document.getElementById("day3tempLow").innerHTML = formatDecimal(lowestValue(day3values.map(r => r[1])));
-        document.getElementById("day3humid").innerHTML = formatDecimal(averageValues(day3values.map(r => r[2])));
-        document.getElementById("day3precip").innerHTML = formatDecimal(averageValues(day3values.map(r => r[4])));
-        document.getElementById("day3cloud").innerHTML = formatDecimal(averageValues(day3values.map(r => r[6])));
-        document.getElementById("day3wind").innerHTML = formatDecimal(averageValues(day3values.map(r => r[7])));
-        document.getElementById("day3gusts").innerHTML = formatDecimal(averageValues(day3values.map(r => r[9])));
-        document.getElementById("day3direction").innerHTML = formatDecimal(averageValues(day3values.map(r => r[8])));
+      //   document.getElementById("day3tempHigh").innerHTML = formatDecimal(highestValue(day3values.map(r => r[1])));
+      //   document.getElementById("day3tempLow").innerHTML = formatDecimal(lowestValue(day3values.map(r => r[1])));
+      //   document.getElementById("day3humid").innerHTML = formatDecimal(averageValues(day3values.map(r => r[2])));
+      //   document.getElementById("day3precip").innerHTML = formatDecimal(averageValues(day3values.map(r => r[4])));
+      //   document.getElementById("day3cloud").innerHTML = formatDecimal(averageValues(day3values.map(r => r[6])));
+      //   document.getElementById("day3wind").innerHTML = formatDecimal(averageValues(day3values.map(r => r[7])));
+      //   document.getElementById("day3gusts").innerHTML = formatDecimal(averageValues(day3values.map(r => r[9])));
+      //   document.getElementById("day3direction").innerHTML = formatDecimal(averageValues(day3values.map(r => r[8])));
       
-      }
+      // }
 
-      getAndSetForecast(forecastURL);
+      // getAndSetForecast(forecastURL);
 
       function createForecastItem(dailyArr, i) {
         const forecastItem = document.createElement("div");
         forecastItem.className = "forecastItem";
         forecastItem.id = dailyArr[i][0].split('T')[1];
-        forecastItem.innerHTML = `<div style="padding:5px;">
+        forecastItem.innerHTML = `
           <div class="forecastValue">${dailyArr[i][0].split('T')[1]}</div>
           <div class="forecastIcon">Icon</div>
           <div class="forecastValue">${dailyArr[i][3]}&deg;C</div>
@@ -451,24 +418,15 @@
           <div class="forecastValue">${dailyArr[i][7]}km/h</div>
           <div class="forecastValue">${dailyArr[i][9]}km/h</div>
           <div class="forecastValue">${dailyArr[i][8]}&deg;</div>
-          </div>
         `;
         return forecastItem;
       }
 
       window.getForecast = async function() {
-        //Algorithm:
-        //Got the data in 3 arrays
-        //The user selects a date -> Today = 0, tomorrow = 1, day after = 2
-        //Given only the options of today, tomorrow and the day after for input
-        //Have a loop that creates the forecastItem for each hour
-
-        
-        minDate = new Date().toISOString().split('T')[0];
-        maxDate = new Date(new Date().setDate(new Date().getDate() + 2)).toISOString().split('T')[0];
 
         let forecastItemHtml = document.createElement("div");
-
+        let forecastDateChosen = document.getElementById("forecastDate").value;
+        
         document.getElementById("forecastDate").setAttribute("min", today.toISOString().split('T')[0]);
         document.getElementById("forecastDate").setAttribute("max", dayAfter.toISOString().split('T')[0]);
         document.getElementById("forecastDate").setAttribute("value", today.toISOString().split('T')[0]);
@@ -524,19 +482,22 @@
           console.error(error.message);
         }
 
-        if(document.getElementById("forecastDate").value == today.toISOString().split('T')[0]) {
+        if(forecastDateChosen == today.toISOString().split('T')[0]) {
+          document.getElementById("forecastDayTitle").innerHTML = today.toLocaleDateString('en-GB', { weekday: 'long' }) + ", " + forecastDateChosen;
           for(let i = 0; i < 24; i++) {
             forecastItemHtml.appendChild(createForecastItem(dailyForecast[0], i));
           }
         }
 
-        else if(document.getElementById("forecastDate").value == tomorrow.toISOString().split('T')[0]) {
+        else if(forecastDateChosen == tomorrow.toISOString().split('T')[0]) {
+          document.getElementById("forecastDayTitle").innerHTML = tomorrow.toLocaleDateString('en-GB', { weekday: 'long' }) + ", " + tomorrow.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
           for(let i = 0; i < 24; i++) {
             forecastItemHtml.appendChild(createForecastItem(dailyForecast[1], i));
           }
         }
 
-        else if(document.getElementById("forecastDate").value == dayAfter.toISOString().split('T')[0]) {
+        else if(forecastDateChosen == dayAfter.toISOString().split('T')[0]) {
+          document.getElementById("forecastDayTitle").innerHTML = dayAfter.toLocaleDateString('en-GB', { weekday: 'long' }) + ", " + forecastDateChosen;
           for(let i = 0; i < 24; i++) {
             forecastItemHtml.appendChild(createForecastItem(dailyForecast[2], i));
           }
@@ -552,8 +513,8 @@
     <h2>Weather Forcast</h2>
     <input type="date" id="forecastDate">
     <button onclick="getForecast()">Get Forecast</button>
-    <div id="forcast2">  
-      
+    <div id="forecastDayTitle"></div>
+    <div id="forcast2">
     </div>
     
 

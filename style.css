@@ -45,7 +45,6 @@ h1 {
   overflow: auto;
   white-space: nowrap;
   flex-direction: row;
-  gap: 1%;
   padding: 10px;
   border: 2px solid black;
   border-radius: 15px;
