@@ -523,19 +523,19 @@
 
         if(document.getElementById("forecastDate").value == today.toISOString().split('T')[0]) {
           for(let i = 0; i < 24; i++) {
-            document.getElementById("forecastResult").innerHTML += createForecastItem(dailyForecast[0], i);
+            document.getElementById("forecastResult").innerHTML = createForecastItem(dailyForecast[0], i);
           }
         }
 
         else if(document.getElementById("forecastDate").value == tomorrow.toISOString().split('T')[0]) {
           for(let i = 0; i < 24; i++) {
-            document.getElementById("forecastResult").innerHTML += createForecastItem(dailyForecast[1], i);
+            document.getElementById("forecastResult").innerHTML = createForecastItem(dailyForecast[1], i);
           }
         }
 
         else if(document.getElementById("forecastDate").value == dayAfter.toISOString().split('T')[0]) {
           for(let i = 0; i < 24; i++) {
-            document.getElementById("forecastResult").innerHTML += createForecastItem(dailyForecast[2], i);
+            document.getElementById("forecastResult").innerHTML = createForecastItem(dailyForecast[2], i);
           }
         }
         
