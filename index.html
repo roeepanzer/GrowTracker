@@ -226,7 +226,7 @@
       }
     </script>
     
-    <h2>Weather Forcast</h2>
+    <!-- <h2>Weather Forcast</h2>
       <div id="forcast">
         <div id="day1">
           <b><div id="day1day">Thursday</div></b>
@@ -264,7 +264,7 @@
           <div>Wind Gusts: <nobr id="day3gusts"></nobr> km/h</div>
           <div>Wind Direction: <nobr id="day3direction"></nobr> &deg;</div>
         </div>
-      </div>
+      </div> -->
 
     <script>
       const forecastURL = "https://api.open-meteo.com/v1/forecast?latitude=51.793056&longitude=6.159563&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,precipitation_probability,cloud_cover,wind_speed_80m,wind_direction_80m,wind_gusts_10m&timezone=Europe%2FBerlin&forecast_days=3";
@@ -407,7 +407,7 @@
         return forecastItem;
       }
 
-      document.getElementById("forecastDate").setAttribute("min", today.toISOString().split('T')[0]);
+      document.getElementById("forecastDate").setAttribute("min", today.toJSON().split('T')[0]);
       document.getElementById("forecastDate").setAttribute("max", dayAfter.toISOString().split('T')[0]);
       document.getElementById("forecastDate").setAttribute("value", today.toISOString().split('T')[0]);
 
