@@ -52,7 +52,7 @@ h1 {
 
 .forecastItem {
   flex: 1;
-  display: grid;
+  display: inline-grid;
   gap: 1%;
   flex-direction: column;
   justify-content: flex-start;
