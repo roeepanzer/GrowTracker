@@ -466,9 +466,9 @@
         minDate = new Date().toISOString().split('T')[0];
         maxDate = new Date(new Date().setDate(new Date().getDate() + 2)).toISOString().split('T')[0];
 
-        document.getElementById("forecastDate").setAttribute("min", today.toISOString());
-        document.getElementById("forecastDate").setAttribute("max", dayAfter.toISOString());
-        document.getElementById("forecastDate").setAttribute("value", today.toISOString());
+        document.getElementById("forecastDate").setAttribute("min", today.toISOString().split('T')[0]);
+        document.getElementById("forecastDate").setAttribute("max", dayAfter.toISOString().split('T')[0]);
+        document.getElementById("forecastDate").setAttribute("value", today.toISOString().split('T')[0]);
 
         try{
           const response = await fetch(url);
@@ -521,19 +521,19 @@
           console.error(error.message);
         }
 
-        if(document.getElementById("forecastDate").value == today.toISOString()) {
+        if(document.getElementById("forecastDate").value == today.toISOString().split('T')[0]) {
           for(let i = 0; i < 24; i++) {
             document.getElementById("forecastResult").innerHTML += createForecastItem(dailyForecast[0], i);
           }
         }
 
-        else if(document.getElementById("forecastDate").value == tomorrow.toISOString()) {
+        else if(document.getElementById("forecastDate").value == tomorrow.toISOString().split('T')[0]) {
           for(let i = 0; i < 24; i++) {
             document.getElementById("forecastResult").innerHTML += createForecastItem(dailyForecast[1], i);
           }
         }
 
-        else if(document.getElementById("forecastDate").value == dayAfter.toISOString()) {
+        else if(document.getElementById("forecastDate").value == dayAfter.toISOString().split('T')[0]) {
           for(let i = 0; i < 24; i++) {
             document.getElementById("forecastResult").innerHTML += createForecastItem(dailyForecast[2], i);
           }
