@@ -407,7 +407,8 @@
         return forecastItem;
       }
 
-      document.getElementById("forecastDate").setAttribute("min", today.toJSON().split('T')[0]);
+      // document.getElementById("forecastDate").setAttribute("min", today.toJSON().split('T')[0]);
+      document.getElementById("forecastDate").setAttribute("min", new Date().toJSON().split('T')[0]);
       document.getElementById("forecastDate").setAttribute("max", dayAfter.toISOString().split('T')[0]);
       document.getElementById("forecastDate").setAttribute("value", today.toISOString().split('T')[0]);
 
