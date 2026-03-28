@@ -525,20 +525,20 @@
 
         if(document.getElementById("forecastDate").value == today.toISOString().split('T')[0]) {
           for(let i = 0; i < 24; i++) {
-            forecastItemHtml.appendChild(createForecastItem(dailyForecast[0], i)); //changed here to one time. Will check it in a sec.
+            forecastItemHtml.appendChild(createForecastItem(dailyForecast[0], i));
             // document.getElementById("forecastResult").innerHTML = createForecastItem(dailyForecast[0], i);
           }
         }
 
         else if(document.getElementById("forecastDate").value == tomorrow.toISOString().split('T')[0]) {
           for(let i = 0; i < 24; i++) {
-            document.getElementById("forecastResult").innerHTML = createForecastItem(dailyForecast[1], i);
+            forecastItemHtml.appendChild(createForecastItem(dailyForecast[1], i));
           }
         }
 
         else if(document.getElementById("forecastDate").value == dayAfter.toISOString().split('T')[0]) {
           for(let i = 0; i < 24; i++) {
-            document.getElementById("forecastResult").innerHTML = createForecastItem(dailyForecast[2], i);
+            forecastItemHtml.appendChild(createForecastItem(dailyForecast[2], i));
           }
         }
 
@@ -553,7 +553,7 @@
       <input type="date" id="forecastDate">
       <button onclick="getForecast()">Get Forecast</button>
       <div id="forecastResult">
-        <div class="forecastItem" id="00:00">
+        <!-- <div class="forecastItem" id="00:00">
           <div class="forecastValue">Time</div>
           <div class="forecastIcon"><i class="wi wi-day-sunny"></i></div>
           <div class="forecastValue">Temp</div>
@@ -563,8 +563,7 @@
           <div class="forecastValue">Wind</div>
           <div class="forecastValue">Gusts</div>
           <div class="forecastValue">Direction</div>
-        </div>
-
+        </div> -->
       </div>
 
     </div>
