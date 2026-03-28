@@ -526,7 +526,6 @@
         if(document.getElementById("forecastDate").value == today.toISOString().split('T')[0]) {
           for(let i = 0; i < 24; i++) {
             forecastItemHtml.appendChild(createForecastItem(dailyForecast[0], i));
-            // document.getElementById("forecastResult").innerHTML = createForecastItem(dailyForecast[0], i);
           }
         }
 
@@ -543,6 +542,7 @@
         }
 
         // document.getElementById("forecastResult").innerHTML = forecastItemHtml;
+        document.getElementById("forecastResult").innerHTML = '';
         document.getElementById("forecastResult").appendChild(forecastItemHtml);
         
     }
