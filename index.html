@@ -443,7 +443,7 @@
         const forecastItem = document.createElement("div");
         forecastItem.className = "forecastItem";
         forecastItem.id = dailyArr[i][0].split('T')[1];
-        forecastItem.innerHTML = `
+        forecastItem.innerHTML = `<div style="padding:1px;">
           <div class="forecastValue">${dailyArr[i][0].split('T')[1]}</div>
           <div class="forecastIcon">Icon</div>
           <div class="forecastValue">${dailyArr[i][3]}&deg;C</div>
@@ -451,6 +451,7 @@
           <div class="forecastValue">${dailyArr[i][7]}km/h</div>
           <div class="forecastValue">${dailyArr[i][9]}km/h</div>
           <div class="forecastValue">${dailyArr[i][8]}&deg;</div>
+          </div>
         `;
         return forecastItem;
       }
@@ -542,8 +543,8 @@
         }
 
         // document.getElementById("forecastResult").innerHTML = forecastItemHtml;
-        document.getElementById("forecastResult").innerHTML = '';
-        document.getElementById("forecastResult").appendChild(forecastItemHtml);
+        document.getElementById("forcast2").innerHTML = '';
+        document.getElementById("forcast2").appendChild(forecastItemHtml);
         
     }
     </script>
@@ -552,8 +553,7 @@
     <input type="date" id="forecastDate">
     <button onclick="getForecast()">Get Forecast</button>
     <div id="forcast2">  
-      <div id="forecastResult">
-      </div>
+      
     </div>
     
 
