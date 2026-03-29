@@ -290,6 +290,11 @@
       const dayMax = new Date(today);
       dayMax.setDate(today.getDate() + 3);
 
+      console.log("Today: " + today.toISOString());
+      console.log("Tomorrow: " + tomorrow.toISOString());
+      console.log("DayAfter: " + dayAfter.toISOString());
+      console.log("DayMax: " + dayMax.toISOString());
+
       // let day1values = Array(24).fill(null).map(() => Array(10).fill(0));
       // let day2values = Array(24).fill(null).map(() => Array(10).fill(0));
       // let day3values = Array(24).fill(null).map(() => Array(10).fill(0));
