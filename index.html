@@ -266,6 +266,13 @@
         </div>
       </div> -->
 
+    <h2>Weather Forcast</h2>
+    <input type="date" id="forecastDate">
+    <button onclick="getForecast()">Get Forecast</button>
+    <h2 id="forecastDayTitle"></h2>
+    <div id="forcast2">
+    </div>
+
     <script>
       const forecastURL = "https://api.open-meteo.com/v1/forecast?latitude=51.793056&longitude=6.159563&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,precipitation_probability,cloud_cover,wind_speed_80m,wind_direction_80m,wind_gusts_10m&timezone=Europe%2FBerlin&forecast_days=3";
       const day1Begin = 0;
@@ -497,12 +504,7 @@
     }
     </script>
 
-    <h2>Weather Forcast</h2>
-    <input type="date" id="forecastDate">
-    <button onclick="getForecast()">Get Forecast</button>
-    <h2 id="forecastDayTitle"></h2>
-    <div id="forcast2">
-    </div>
+    
     
 
   <div id="pastWeather">
