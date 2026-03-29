@@ -287,6 +287,8 @@
       tomorrow.setDate(today.getDate() + 1);
       const dayAfter = new Date(today);
       dayAfter.setDate(today.getDate() + 2);
+      const dayMax = new Date(today);
+      dayMax.setDate(today.getDate() + 3);
 
       // let day1values = Array(24).fill(null).map(() => Array(10).fill(0));
       // let day2values = Array(24).fill(null).map(() => Array(10).fill(0));
@@ -418,7 +420,7 @@
       // document.getElementById("forecastDate").setAttribute("value", today.toISOString().split('T')[0]);
       document.getElementById("forecastDate").setAttribute("value", today.toISOString().split('T')[0]);
       document.getElementById("forecastDate").setAttribute("min", today.toISOString().split('T')[0]);
-      document.getElementById("forecastDate").setAttribute("max", dayAfter.toISOString().split('T')[0]);
+      document.getElementById("forecastDate").setAttribute("max", dayMax.toISOString().split('T')[0]);
 
       window.getForecast = async function() {
 
