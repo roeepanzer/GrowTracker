@@ -553,8 +553,8 @@
             dailyForecast[0][i][4] = result.hourly.precipitation[i];
             dailyForecast[0][i][5] = result.hourly.precipitation_probability[i];
             dailyForecast[0][i][6] = result.hourly.cloud_cover[i];
-            dailyForecast[0][i][7] = result.hourly.wind_speed_80m[i];
-            dailyForecast[0][i][8] = result.hourly.wind_direction_80m[i];
+            dailyForecast[0][i][7] = result.hourly.wind_speed_10m[i];
+            dailyForecast[0][i][8] = result.hourly.wind_direction_10m[i];
             dailyForecast[0][i][9] = result.hourly.wind_gusts_10m[i];
             dailyForecast[0][i][10] = result.hourly.is_day[i];
           }
@@ -566,8 +566,8 @@
             dailyForecast[1][i-day2Begin][4] = result.hourly.precipitation[i];
             dailyForecast[1][i-day2Begin][5] = result.hourly.precipitation_probability[i];
             dailyForecast[1][i-day2Begin][6] = result.hourly.cloud_cover[i];
-            dailyForecast[1][i-day2Begin][7] = result.hourly.wind_speed_80m[i];
-            dailyForecast[1][i-day2Begin][8] = result.hourly.wind_direction_80m[i];
+            dailyForecast[1][i-day2Begin][7] = result.hourly.wind_speed_10m[i];
+            dailyForecast[1][i-day2Begin][8] = result.hourly.wind_direction_10m[i];
             dailyForecast[1][i-day2Begin][9] = result.hourly.wind_gusts_10m[i];
             dailyForecast[1][i-day2Begin][10] = result.hourly.is_day[i];
           }
@@ -579,8 +579,8 @@
             dailyForecast[2][i-day3Begin][4] = result.hourly.precipitation[i];
             dailyForecast[2][i-day3Begin][5] = result.hourly.precipitation_probability[i];
             dailyForecast[2][i-day3Begin][6] = result.hourly.cloud_cover[i];
-            dailyForecast[2][i-day3Begin][7] = result.hourly.wind_speed_80m[i];
-            dailyForecast[2][i-day3Begin][8] = result.hourly.wind_direction_80m[i];
+            dailyForecast[2][i-day3Begin][7] = result.hourly.wind_speed_10m[i];
+            dailyForecast[2][i-day3Begin][8] = result.hourly.wind_direction_10m[i];
             dailyForecast[2][i-day3Begin][9] = result.hourly.wind_gusts_10m[i];
             dailyForecast[2][i-day3Begin][10] = result.hourly.is_day[i];
           }
@@ -592,9 +592,17 @@
       setIcon();
     }
 
+    let forecastLoadPromise = null;
+    function ensureForecastLoaded() {
+      if (forecastLoadPromise === null) {
+        forecastLoadPromise = getForecast();
+      }
+      return forecastLoadPromise;
+    }
+
     window.setWeather = async function() {
-      getForecast(); //Getting the forecast data, regardless of the date chosen and ONCE ONLY
-      
+      await ensureForecastLoaded(); // same promise every click — only one network fetch
+
       let forecastItemHtml = document.createElement("div");
       let forecastDateChosen = document.getElementById("forecastDate").value;
 
@@ -623,6 +631,8 @@
       document.getElementById("forcast2").innerHTML = '';
       document.getElementById("forcast2").appendChild(forecastItemHtml);
     }
+
+    ensureForecastLoaded(); // start loading once when the page loads
     </script>
 
     
