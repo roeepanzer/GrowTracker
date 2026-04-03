@@ -270,7 +270,7 @@
     // dailyForecast[day][hour][10] = is_day
     //dailyForecast[day][hour][11] = icon
 
-    getForecast(); //Getting the forecast data, regardless of the date chosen and ONCE ONLY
+    
 
     // function averageValues(values) {
     //   return values.reduce((a, b) => a + b, 0) / values.length;
@@ -391,149 +391,149 @@
     }
 
     function setIcon() {
-        //Template for the element is: '<i class="wi wi-something-something"></i> => therefore icon returned = [iconBase1 + const + iconBase2]
-        let iconBase1 = '<i class="wi ';
-        let iconBase2 = '"></i>';
+      //Template for the element is: '<i class="wi wi-something-something"></i> => therefore icon returned = [iconBase1 + const + iconBase2]
+      let iconBase1 = '<i class="wi ';
+      let iconBase2 = '"></i>';
 
-        //Day Icons
-        const daySunny = 'wi-day-sunny'; //full sun [isDay=1 & cloud_cover < 10%]
-        const dayRain = 'wi-day-rain'; //normal/rough rain [isDay=1 & precipitation > 2.5mm]
-        const daySprinkle = 'wi-day-sprinkle'; //light rain [isDay=1 & precipitation <= 2.5mm]
-        const dayCloudy = 'wi-day-cloudy'; //half-cloudy [isDay=1 & cloud_cover > 40% & cloud_cover < 70%]
-        const dayOvercastCloudy = 'wi-day-sunny-overcast'; //mostly sunny [isDay=1 & cloud_cover > 10% & cloud_cover < 40%]
-        const dayCloudyWindy = 'wi-day-cloudy-gusts'; //half-cloudy with winds [isDay=1 & cloud_cover > 40% & cloud_cover < 70% & wind_speed_10m > 15km/h]
-        const dayWindy = 'wi-day-windy'; //full sun with wind [isDay=1 & cloud_cover < 10% & wind_speed_10m > 15km/h]
-        const dayHot = 'wi-hot'; //very hot day [isDay=1 & temperature_2m > 30°C]
+      //Day Icons
+      const daySunny = 'wi-day-sunny'; //full sun [isDay=1 & cloud_cover < 10%]
+      const dayRain = 'wi-day-rain'; //normal/rough rain [isDay=1 & precipitation > 2.5mm]
+      const daySprinkle = 'wi-day-sprinkle'; //light rain [isDay=1 & precipitation <= 2.5mm]
+      const dayCloudy = 'wi-day-cloudy'; //half-cloudy [isDay=1 & cloud_cover > 40% & cloud_cover < 70%]
+      const dayOvercastCloudy = 'wi-day-sunny-overcast'; //mostly sunny [isDay=1 & cloud_cover > 10% & cloud_cover < 40%]
+      const dayCloudyWindy = 'wi-day-cloudy-gusts'; //half-cloudy with winds [isDay=1 & cloud_cover > 40% & cloud_cover < 70% & wind_speed_10m > 15km/h]
+      const dayWindy = 'wi-day-windy'; //full sun with wind [isDay=1 & cloud_cover < 10% & wind_speed_10m > 15km/h]
+      const dayHot = 'wi-hot'; //very hot day [isDay=1 & temperature_2m > 30°C]
 
-        //Night Icons
-        const nightClear = 'wi-night-clear'; //clear night (no clouds) [isDay=0 & cloud_cover < 10%]
-        const nightRain = 'wi-night-alt-rain'; //normal/rough rain [isDay=0 & precipitation > 2.5mm]
-        const nightSprinkle = 'wi-night-alt-sprinkle'; //light rain [isDay=0 & precipitation <= 2.5mm]
-        const nightCloudy = 'wi-night-alt-cloudy'; //half-cloudy night [isDay=0 & cloud_cover > 40% & cloud_cover < 70%]
-        const nightCloudyWindy = 'wi-night-alt-cloudy-gusts'; //half-cloudy with winds [isDay=0 & cloud_cover > 40% & cloud_cover < 70% & wind_speed_10m > 15km/h]
+      //Night Icons
+      const nightClear = 'wi-night-clear'; //clear night (no clouds) [isDay=0 & cloud_cover < 10%]
+      const nightRain = 'wi-night-alt-rain'; //normal/rough rain [isDay=0 & precipitation > 2.5mm]
+      const nightSprinkle = 'wi-night-alt-sprinkle'; //light rain [isDay=0 & precipitation <= 2.5mm]
+      const nightCloudy = 'wi-night-alt-cloudy'; //half-cloudy night [isDay=0 & cloud_cover > 40% & cloud_cover < 70%]
+      const nightCloudyWindy = 'wi-night-alt-cloudy-gusts'; //half-cloudy with winds [isDay=0 & cloud_cover > 40% & cloud_cover < 70% & wind_speed_10m > 15km/h]
 
-        //neutral Icons
-        const cloudy = 'wi-cloud'; //full cloud cover [cloud_cover > 70%]
-        const cloudyRain = 'wi-rain'; //raining and full cloud cover (heavy rain) [cloud_cover > 70% & precipitation > 2.5mm]
-        const cloudySprinkle = 'wi-sprinkle'; //sprinkle and full cloud cover (light rain) [cloud_cover > 70% & precipitation <= 2.5mm]
-        const cloudyWindy = 'wi-cloudy-gusts'; //windy and full cloud cover [cloud_cover > 70% & wind_speed_10m > 15km/h]
-        const windy = 'wi-strong-wind'; //strong winds [wind_speed_10m > 25km/h]
-        const sunrise = 'wi-sunrise'; //sunrise
-        const sunset = 'wi-sunset'; //sunset
+      //neutral Icons
+      const cloudy = 'wi-cloud'; //full cloud cover [cloud_cover > 70%]
+      const cloudyRain = 'wi-rain'; //raining and full cloud cover (heavy rain) [cloud_cover > 70% & precipitation > 2.5mm]
+      const cloudySprinkle = 'wi-sprinkle'; //sprinkle and full cloud cover (light rain) [cloud_cover > 70% & precipitation <= 2.5mm]
+      const cloudyWindy = 'wi-cloudy-gusts'; //windy and full cloud cover [cloud_cover > 70% & wind_speed_10m > 15km/h]
+      const windy = 'wi-strong-wind'; //strong winds [wind_speed_10m > 25km/h]
+      const sunrise = 'wi-sunrise'; //sunrise
+      const sunset = 'wi-sunset'; //sunset
 
-        //wind levels Icons
-        const windlvl0 = 'wi-wind-beaufort-0'; //level 0 wind
-        const windlvl1 = 'wi-wind-beaufort-1'; //level 1 wind
-        const windlvl2 = 'wi-wind-beaufort-2'; //level 2 wind
-        const windlvl3 = 'wi-wind-beaufort-3'; //level 3 wind
-        const windlvl4 = 'wi-wind-beaufort-4'; //level 4 wind
-        const windlvl5 = 'wi-wind-beaufort-5'; //level 5 wind
-        const windlvl6 = 'wi-wind-beaufort-6'; //level 6 wind
-        const windlvl7 = 'wi-wind-beaufort-7'; //level 7 wind
-        const windlvl8 = 'wi-wind-beaufort-8'; //level 8 wind
-        const windlvl9 = 'wi-wind-beaufort-9'; //level 9 wind
-        const windlvl10 = 'wi-wind-beaufort-10'; //level 10 wind
+      //wind levels Icons
+      const windlvl0 = 'wi-wind-beaufort-0'; //level 0 wind
+      const windlvl1 = 'wi-wind-beaufort-1'; //level 1 wind
+      const windlvl2 = 'wi-wind-beaufort-2'; //level 2 wind
+      const windlvl3 = 'wi-wind-beaufort-3'; //level 3 wind
+      const windlvl4 = 'wi-wind-beaufort-4'; //level 4 wind
+      const windlvl5 = 'wi-wind-beaufort-5'; //level 5 wind
+      const windlvl6 = 'wi-wind-beaufort-6'; //level 6 wind
+      const windlvl7 = 'wi-wind-beaufort-7'; //level 7 wind
+      const windlvl8 = 'wi-wind-beaufort-8'; //level 8 wind
+      const windlvl9 = 'wi-wind-beaufort-9'; //level 9 wind
+      const windlvl10 = 'wi-wind-beaufort-10'; //level 10 wind
 
-        //seting an icon for each hour and for each day within the dailyForecast array
-        for(let i = 0; i < 3; i++) {
-          for(let j = 0; j < 24; j++) {
-            if(dailyForecast[i][j][6] >= 70) { //full cloud cover
-              if(dailyForecast[i][j][4] > 2.5) { //raining and fully cloud cover
-                dailyForecast[i][j][11] = iconBase1+cloudyRain+iconBase2;
+      //seting an icon for each hour and for each day within the dailyForecast array
+      for(let i = 0; i < 3; i++) {
+        for(let j = 0; j < 24; j++) {
+          if(dailyForecast[i][j][6] >= 70) { //full cloud cover
+            if(dailyForecast[i][j][4] > 2.5) { //raining and fully cloud cover
+              dailyForecast[i][j][11] = iconBase1+cloudyRain+iconBase2;
+              continue;
+            }
+            else if(dailyForecast[i][j][4] <= 2.5 && dailyForecast[i][j][4] > 0.1) { //light rain with fully cloud cover
+              dailyForecast[i][j][11] = iconBase1+cloudySprinkle+iconBase2;
+              continue;
+            }
+            else { //not raining, full cloud cover
+              if(dailyForecast[i][j][7] > 25) { //very windy, full cloud cover
+                dailyForecast[i][j][11] = iconBase1+windy+iconBase2;
                 continue;
               }
-              else if(dailyForecast[i][j][4] <= 2.5 && dailyForecast[i][j][4] > 0.1) { //light rain with fully cloud cover
-                dailyForecast[i][j][11] = iconBase1+cloudySprinkle+iconBase2;
+              else if(dailyForecast[i][j][7] > 15 && dailyForecast[i][j][7] <= 25){ //moderately windy, full cloud cover
+                dailyForecast[i][j][11] = iconBase1+cloudyWindy+iconBase2;
                 continue;
               }
-              else { //not raining, full cloud cover
-                if(dailyForecast[i][j][7] > 25) { //very windy, full cloud cover
-                  dailyForecast[i][j][11] = iconBase1+windy+iconBase2;
-                  continue;
-                }
-                else if(dailyForecast[i][j][7] > 15 && dailyForecast[i][j][7] <= 25){ //moderately windy, full cloud cover
-                  dailyForecast[i][j][11] = iconBase1+cloudyWindy+iconBase2;
-                  continue;
-                }
-                else { //low to no winds, full cloud cover
-                  dailyForecast[i][j][11] = iconBase1+cloudy+iconBase2;
-                  continue;
-                }
+              else { //low to no winds, full cloud cover
+                dailyForecast[i][j][11] = iconBase1+cloudy+iconBase2;
+                continue;
               }
             }
-            else { //not full cloud cover
-              if(dailyForecast[i][j][10] == 1) { //day
-                if(dailyForecast[i][j][3] > 30) { //very hot day
-                  dailyForecast[i][j][11] = iconBase1+dayHot+iconBase2;
-                  continue;
-                }
-                else { //not very hot day
-                  if(dailyForecast[i][j][4] > 2.5) { //heavy rain
-                    dailyForecast[i][j][11] = iconBase1+dayRain+iconBase2;
-                    continue;
-                  }
-                  else if(dailyForecast[i][j][4] <= 2.5 && dailyForecast[i][j][4] > 0.1){ //light rain
-                    dailyForecast[i][j][11] = iconBase1+daySprinkle+iconBase2;
-                    continue;
-                  }
-                  else { //no rain
-                    if(dailyForecast[i][j][6] >= 40 && dailyForecast[i][j][6] < 70) { //half-cloudy
-                      if(dailyForecast[i][j][7] > 15) { //windy
-                        dailyForecast[i][j][11] = iconBase1+dayCloudyWindy+iconBase2;
-                        continue;
-                      }
-                      else { //not windy
-                        dailyForecast[i][j][11] = iconBase1+dayCloudy+iconBase2;
-                        continue;
-                      }
-                    }
-                    else if(dailyForecast[i][j][6] >= 10 && dailyForecast[i][j][6] < 40) { //mostly sunny
-                      if(dailyForecast[i][j][7] > 15) { //windy
-                        dailyForecast[i][j][11] = iconBase1+dayWindy+iconBase2;
-                        continue;
-                      }
-                      else { //not windy
-                        dailyForecast[i][j][11] = iconBase1+dayOvercastCloudy+iconBase2;
-                        continue;
-                      }
-                    }
-                    else { //clear sky
-                      dailyForecast[i][j][11] = iconBase1+daySunny+iconBase2;
-                      continue;
-                    }
-                  }
-                }
+          }
+          else { //not full cloud cover
+            if(dailyForecast[i][j][10] == 1) { //day
+              if(dailyForecast[i][j][3] > 30) { //very hot day
+                dailyForecast[i][j][11] = iconBase1+dayHot+iconBase2;
+                continue;
               }
-              else { //night
+              else { //not very hot day
                 if(dailyForecast[i][j][4] > 2.5) { //heavy rain
-                  dailyForecast[i][j][11] = iconBase1+nightRain+iconBase2;
+                  dailyForecast[i][j][11] = iconBase1+dayRain+iconBase2;
                   continue;
                 }
-                else if(dailyForecast[i][j][4] <= 2.5 && dailyForecast[i][j][4] > 0.1) { //light rain
-                  dailyForecast[i][j][11] = iconBase1+nightSprinkle+iconBase2;
+                else if(dailyForecast[i][j][4] <= 2.5 && dailyForecast[i][j][4] > 0.1){ //light rain
+                  dailyForecast[i][j][11] = iconBase1+daySprinkle+iconBase2;
                   continue;
                 }
                 else { //no rain
                   if(dailyForecast[i][j][6] >= 40 && dailyForecast[i][j][6] < 70) { //half-cloudy
                     if(dailyForecast[i][j][7] > 15) { //windy
-                      dailyForecast[i][j][11] = iconBase1+nightCloudyWindy+iconBase2;
+                      dailyForecast[i][j][11] = iconBase1+dayCloudyWindy+iconBase2;
                       continue;
                     }
                     else { //not windy
-                      dailyForecast[i][j][11] = iconBase1+nightCloudy+iconBase2;
+                      dailyForecast[i][j][11] = iconBase1+dayCloudy+iconBase2;
+                      continue;
+                    }
+                  }
+                  else if(dailyForecast[i][j][6] >= 10 && dailyForecast[i][j][6] < 40) { //mostly sunny
+                    if(dailyForecast[i][j][7] > 15) { //windy
+                      dailyForecast[i][j][11] = iconBase1+dayWindy+iconBase2;
+                      continue;
+                    }
+                    else { //not windy
+                      dailyForecast[i][j][11] = iconBase1+dayOvercastCloudy+iconBase2;
                       continue;
                     }
                   }
                   else { //clear sky
-                    dailyForecast[i][j][11] = iconBase1+nightClear+iconBase2;
+                    dailyForecast[i][j][11] = iconBase1+daySunny+iconBase2;
                     continue;
                   }
+                }
+              }
+            }
+            else { //night
+              if(dailyForecast[i][j][4] > 2.5) { //heavy rain
+                dailyForecast[i][j][11] = iconBase1+nightRain+iconBase2;
+                continue;
+              }
+              else if(dailyForecast[i][j][4] <= 2.5 && dailyForecast[i][j][4] > 0.1) { //light rain
+                dailyForecast[i][j][11] = iconBase1+nightSprinkle+iconBase2;
+                continue;
+              }
+              else { //no rain
+                if(dailyForecast[i][j][6] >= 40 && dailyForecast[i][j][6] < 70) { //half-cloudy
+                  if(dailyForecast[i][j][7] > 15) { //windy
+                    dailyForecast[i][j][11] = iconBase1+nightCloudyWindy+iconBase2;
+                    continue;
+                  }
+                  else { //not windy
+                    dailyForecast[i][j][11] = iconBase1+nightCloudy+iconBase2;
+                    continue;
+                  }
+                }
+                else { //clear sky
+                  dailyForecast[i][j][11] = iconBase1+nightClear+iconBase2;
+                  continue;
                 }
               }
             }
           }
         }
       }
+    }
 
     async function getForecast() {
       try{
@@ -589,9 +589,12 @@
       catch (error) {
         console.error(error.message);
       }
+      setIcon();
     }
 
     window.setWeather = async function() {
+      getForecast(); //Getting the forecast data, regardless of the date chosen and ONCE ONLY
+      
       let forecastItemHtml = document.createElement("div");
       let forecastDateChosen = document.getElementById("forecastDate").value;
 
