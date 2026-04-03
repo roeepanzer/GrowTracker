@@ -234,176 +234,190 @@
     </div>
 
     <script>
-      const forecastURL = "https://api.open-meteo.com/v1/forecast?latitude=51.793056&longitude=6.159563&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,precipitation_probability,cloud_cover,wind_speed_80m,wind_direction_80m,wind_gusts_10m&timezone=Europe%2FBerlin&forecast_days=3";
-      const day1Begin = 0;
-      const day1End = 23;
-      const day2Begin = 24;
-      const day2End = 47;
-      const day3Begin = 48;
-      const day3End = 72;
+    const forecastURL = "https://api.open-meteo.com/v1/forecast?latitude=51.793056&longitude=6.159563&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,precipitation_probability,cloud_cover,wind_gusts_10m,wind_direction_10m,wind_speed_10m,is_day&timezone=Europe%2FBerlin&forecast_days=3";
+    const day1Begin = 0;
+    const day1End = 23;
+    const day2Begin = 24;
+    const day2End = 47;
+    const day3Begin = 48;
+    const day3End = 72;
 
-      const today = new Date();
-      const tomorrow = new Date(today);
-      tomorrow.setDate(today.getDate() + 1);
-      const dayAfter = new Date(today);
-      dayAfter.setDate(today.getDate() + 2);
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    const dayAfter = new Date(today);
+    dayAfter.setDate(today.getDate() + 2);
 
-      document.getElementById("forecastDate").setAttribute("value", today.toISOString().split('T')[0]);
-      document.getElementById("forecastDate").setAttribute("min", today.toISOString().split('T')[0]);
-      document.getElementById("forecastDate").setAttribute("max", dayAfter.toISOString().split('T')[0]);
+    document.getElementById("forecastDate").setAttribute("value", today.toISOString().split('T')[0]);
+    document.getElementById("forecastDate").setAttribute("min", today.toISOString().split('T')[0]);
+    document.getElementById("forecastDate").setAttribute("max", dayAfter.toISOString().split('T')[0]);
       // let day2values = Array(24).fill(null).map(() => Array(10).fill(0));
       // let day3values = Array(24).fill(null).map(() => Array(10).fill(0));
 
-      let dailyForecast = Array.from({length: 3}, () => Array.from({length: 24}, () => Array(10).fill(0)));
+    let dailyForecast = Array.from({length: 3}, () => Array.from({length: 24}, () => Array(12).fill(0)));
 
-      getForecast(); //Getting the forecast data, regardless of the date chosen and ONCE ONLY
+    // template for the dailyForecast array:
+    // dailyForecast[day][hour][0] = time
+    // dailyForecast[day][hour][1] = temperature_2m
+    // dailyForecast[day][hour][2] = relative_humidity_2m
+    // dailyForecast[day][hour][3] = apparent_temperature
+    // dailyForecast[day][hour][4] = precipitation
+    // dailyForecast[day][hour][5] = precipitation_probability
+    // dailyForecast[day][hour][6] = cloud_cover
+    // dailyForecast[day][hour][7] = wind_speed_10m
+    // dailyForecast[day][hour][8] = wind_direction_10m
+    // dailyForecast[day][hour][9] = wind_gusts_10m
+    // dailyForecast[day][hour][10] = is_day
+    //dailyForecast[day][hour][11] = icon
 
-      // function averageValues(values) {
-      //   return values.reduce((a, b) => a + b, 0) / values.length;
-      // }
+    getForecast(); //Getting the forecast data, regardless of the date chosen and ONCE ONLY
 
-      // function highestValue(values) {
-      //   return values.reduce((a, b) => a > b ? a : b);
-      // }
+    // function averageValues(values) {
+    //   return values.reduce((a, b) => a + b, 0) / values.length;
+    // }
 
-      // function lowestValue(values) {
-      //   return values.reduce((a, b) => a < b ? a : b);
-      // }
+    // function highestValue(values) {
+    //   return values.reduce((a, b) => a > b ? a : b);
+    // }
 
-      function formatDecimal(num, decimals = 2) {
-        return Number(num).toFixed(decimals);
-      }
+    // function lowestValue(values) {
+    //   return values.reduce((a, b) => a < b ? a : b);
+    // }
 
-      // async function getAndSetForecast(url) {
-      //   try{
-      //     const response = await fetch(url);
-      //     if (!response.ok) {
-      //       throw new Error(`Response status: ${response.status}`);
-      //     }
-      //     let result = await response.json();
+    function formatDecimal(num, decimals = 2) {
+      return Number(num).toFixed(decimals);
+    }
 
-      //     // Populate day1 values
-      //     for (let i = day1Begin; i < day3End; i++) {
-      //       if(i <= day1End) {
-      //         day1values[i][0] = result.hourly.time[i];
-      //         day1values[i][1] = result.hourly.temperature_2m[i]; 
-      //         day1values[i][2] = result.hourly.relative_humidity_2m[i]; 
-      //         day1values[i][3] = result.hourly.apparent_temperature[i];
-      //         day1values[i][4] = result.hourly.precipitation[i];
-      //         day1values[i][5] = result.hourly.precipitation_probability[i];
-      //         day1values[i][6] = result.hourly.cloud_cover[i];
-      //         day1values[i][7] = result.hourly.wind_speed_80m[i]; 
-      //         day1values[i][8] = result.hourly.wind_direction_80m[i];
-      //         day1values[i][9] = result.hourly.wind_gusts_10m[i];
-      //       }
-      //       else if(i >= day2Begin && i <= day2End) {
-      //         day2values[i-day2Begin][0] = result.hourly.time[i];
-      //         day2values[i-day2Begin][1] = result.hourly.temperature_2m[i]; 
-      //         day2values[i-day2Begin][2] = result.hourly.relative_humidity_2m[i]; 
-      //         day2values[i-day2Begin][3] = result.hourly.apparent_temperature[i];
-      //         day2values[i-day2Begin][4] = result.hourly.precipitation[i];
-      //         day2values[i-day2Begin][5] = result.hourly.precipitation_probability[i];
-      //         day2values[i-day2Begin][6] = result.hourly.cloud_cover[i];
-      //         day2values[i-day2Begin][7] = result.hourly.wind_speed_80m[i]; 
-      //         day2values[i-day2Begin][8] = result.hourly.wind_direction_80m[i];
-      //         day2values[i-day2Begin][9] = result.hourly.wind_gusts_10m[i];
-      //       }
-      //       else if(i >= day3Begin && i <= day3End) {
-      //         day3values[i-day3Begin][0] = result.hourly.time[i];
-      //         day3values[i-day3Begin][1] = result.hourly.temperature_2m[i]; 
-      //         day3values[i-day3Begin][2] = result.hourly.relative_humidity_2m[i]; 
-      //         day3values[i-day3Begin][3] = result.hourly.apparent_temperature[i];
-      //         day3values[i-day3Begin][4] = result.hourly.precipitation[i];
-      //         day3values[i-day3Begin][5] = result.hourly.precipitation_probability[i];
-      //         day3values[i-day3Begin][6] = result.hourly.cloud_cover[i];
-      //         day3values[i-day3Begin][7] = result.hourly.wind_speed_80m[i]; 
-      //         day3values[i-day3Begin][8] = result.hourly.wind_direction_80m[i];
-      //         day3values[i-day3Begin][9] = result.hourly.wind_gusts_10m[i];
-      //       }
-      //     }
-      //     day1array = day1values;
-      //     day2array = day2values;
-      //     day3array = day3values;
-      //   }
-      //   catch (error) {
-      //     console.error(error.message);
-      //   }
+    // async function getAndSetForecast(url) {
+    //   try{
+    //     const response = await fetch(url);
+    //     if (!response.ok) {
+    //       throw new Error(`Response status: ${response.status}`);
+    //     }
+    //     let result = await response.json();
 
-      //   document.getElementById("day1tempHigh").innerHTML = formatDecimal(highestValue(day1values.map(r => r[1])));
-      //   document.getElementById("day1tempLow").innerHTML = formatDecimal(lowestValue(day1values.map(r => r[1])));
-      //   document.getElementById("day1humid").innerHTML = formatDecimal(averageValues(day1values.map(r => r[2])));
-      //   document.getElementById("day1precip").innerHTML = formatDecimal(averageValues(day1values.map(r => r[4])));
-      //   document.getElementById("day1cloud").innerHTML = formatDecimal(averageValues(day1values.map(r => r[6])));
-      //   document.getElementById("day1wind").innerHTML = formatDecimal(averageValues(day1values.map(r => r[7])));
-      //   document.getElementById("day1gusts").innerHTML = formatDecimal(averageValues(day1values.map(r => r[9])));
-      //   document.getElementById("day1direction").innerHTML = formatDecimal(averageValues(day1values.map(r => r[8])));
+    //     // Populate day1 values
+    //     for (let i = day1Begin; i < day3End; i++) {
+    //       if(i <= day1End) {
+    //         day1values[i][0] = result.hourly.time[i];
+    //         day1values[i][1] = result.hourly.temperature_2m[i]; 
+    //         day1values[i][2] = result.hourly.relative_humidity_2m[i]; 
+    //         day1values[i][3] = result.hourly.apparent_temperature[i];
+    //         day1values[i][4] = result.hourly.precipitation[i];
+    //         day1values[i][5] = result.hourly.precipitation_probability[i];
+    //         day1values[i][6] = result.hourly.cloud_cover[i];
+    //         day1values[i][7] = result.hourly.wind_speed_80m[i]; 
+    //         day1values[i][8] = result.hourly.wind_direction_80m[i];
+    //         day1values[i][9] = result.hourly.wind_gusts_10m[i];
+    //       }
+    //       else if(i >= day2Begin && i <= day2End) {
+    //         day2values[i-day2Begin][0] = result.hourly.time[i];
+    //         day2values[i-day2Begin][1] = result.hourly.temperature_2m[i]; 
+    //         day2values[i-day2Begin][2] = result.hourly.relative_humidity_2m[i]; 
+    //         day2values[i-day2Begin][3] = result.hourly.apparent_temperature[i];
+    //         day2values[i-day2Begin][4] = result.hourly.precipitation[i];
+    //         day2values[i-day2Begin][5] = result.hourly.precipitation_probability[i];
+    //         day2values[i-day2Begin][6] = result.hourly.cloud_cover[i];
+    //         day2values[i-day2Begin][7] = result.hourly.wind_speed_80m[i]; 
+    //         day2values[i-day2Begin][8] = result.hourly.wind_direction_80m[i];
+    //         day2values[i-day2Begin][9] = result.hourly.wind_gusts_10m[i];
+    //       }
+    //       else if(i >= day3Begin && i <= day3End) {
+    //         day3values[i-day3Begin][0] = result.hourly.time[i];
+    //         day3values[i-day3Begin][1] = result.hourly.temperature_2m[i]; 
+    //         day3values[i-day3Begin][2] = result.hourly.relative_humidity_2m[i]; 
+    //         day3values[i-day3Begin][3] = result.hourly.apparent_temperature[i];
+    //         day3values[i-day3Begin][4] = result.hourly.precipitation[i];
+    //         day3values[i-day3Begin][5] = result.hourly.precipitation_probability[i];
+    //         day3values[i-day3Begin][6] = result.hourly.cloud_cover[i];
+    //         day3values[i-day3Begin][7] = result.hourly.wind_speed_80m[i]; 
+    //         day3values[i-day3Begin][8] = result.hourly.wind_direction_80m[i];
+    //         day3values[i-day3Begin][9] = result.hourly.wind_gusts_10m[i];
+    //       }
+    //     }
+    //     day1array = day1values;
+    //     day2array = day2values;
+    //     day3array = day3values;
+    //   }
+    //   catch (error) {
+    //     console.error(error.message);
+    //   }
 
-      //   document.getElementById("day2tempHigh").innerHTML = formatDecimal(highestValue(day2values.map(r => r[1])));
-      //   document.getElementById("day2tempLow").innerHTML = formatDecimal(lowestValue(day2values.map(r => r[1])));
-      //   document.getElementById("day2humid").innerHTML = formatDecimal(averageValues(day2values.map(r => r[2])));
-      //   document.getElementById("day2precip").innerHTML = formatDecimal(averageValues(day2values.map(r => r[4])));
-      //   document.getElementById("day2cloud").innerHTML = formatDecimal(averageValues(day2values.map(r => r[6])));
-      //   document.getElementById("day2wind").innerHTML = formatDecimal(averageValues(day2values.map(r => r[7])));
-      //   document.getElementById("day2gusts").innerHTML = formatDecimal(averageValues(day2values.map(r => r[9])));
-      //   document.getElementById("day2direction").innerHTML = formatDecimal(averageValues(day2values.map(r => r[8])));
+    //   document.getElementById("day1tempHigh").innerHTML = formatDecimal(highestValue(day1values.map(r => r[1])));
+    //   document.getElementById("day1tempLow").innerHTML = formatDecimal(lowestValue(day1values.map(r => r[1])));
+    //   document.getElementById("day1humid").innerHTML = formatDecimal(averageValues(day1values.map(r => r[2])));
+    //   document.getElementById("day1precip").innerHTML = formatDecimal(averageValues(day1values.map(r => r[4])));
+    //   document.getElementById("day1cloud").innerHTML = formatDecimal(averageValues(day1values.map(r => r[6])));
+    //   document.getElementById("day1wind").innerHTML = formatDecimal(averageValues(day1values.map(r => r[7])));
+    //   document.getElementById("day1gusts").innerHTML = formatDecimal(averageValues(day1values.map(r => r[9])));
+    //   document.getElementById("day1direction").innerHTML = formatDecimal(averageValues(day1values.map(r => r[8])));
 
-      //   document.getElementById("day3tempHigh").innerHTML = formatDecimal(highestValue(day3values.map(r => r[1])));
-      //   document.getElementById("day3tempLow").innerHTML = formatDecimal(lowestValue(day3values.map(r => r[1])));
-      //   document.getElementById("day3humid").innerHTML = formatDecimal(averageValues(day3values.map(r => r[2])));
-      //   document.getElementById("day3precip").innerHTML = formatDecimal(averageValues(day3values.map(r => r[4])));
-      //   document.getElementById("day3cloud").innerHTML = formatDecimal(averageValues(day3values.map(r => r[6])));
-      //   document.getElementById("day3wind").innerHTML = formatDecimal(averageValues(day3values.map(r => r[7])));
-      //   document.getElementById("day3gusts").innerHTML = formatDecimal(averageValues(day3values.map(r => r[9])));
-      //   document.getElementById("day3direction").innerHTML = formatDecimal(averageValues(day3values.map(r => r[8])));
-      
-      // }
+    //   document.getElementById("day2tempHigh").innerHTML = formatDecimal(highestValue(day2values.map(r => r[1])));
+    //   document.getElementById("day2tempLow").innerHTML = formatDecimal(lowestValue(day2values.map(r => r[1])));
+    //   document.getElementById("day2humid").innerHTML = formatDecimal(averageValues(day2values.map(r => r[2])));
+    //   document.getElementById("day2precip").innerHTML = formatDecimal(averageValues(day2values.map(r => r[4])));
+    //   document.getElementById("day2cloud").innerHTML = formatDecimal(averageValues(day2values.map(r => r[6])));
+    //   document.getElementById("day2wind").innerHTML = formatDecimal(averageValues(day2values.map(r => r[7])));
+    //   document.getElementById("day2gusts").innerHTML = formatDecimal(averageValues(day2values.map(r => r[9])));
+    //   document.getElementById("day2direction").innerHTML = formatDecimal(averageValues(day2values.map(r => r[8])));
 
-      // getAndSetForecast(forecastURL);
+    //   document.getElementById("day3tempHigh").innerHTML = formatDecimal(highestValue(day3values.map(r => r[1])));
+    //   document.getElementById("day3tempLow").innerHTML = formatDecimal(lowestValue(day3values.map(r => r[1])));
+    //   document.getElementById("day3humid").innerHTML = formatDecimal(averageValues(day3values.map(r => r[2])));
+    //   document.getElementById("day3precip").innerHTML = formatDecimal(averageValues(day3values.map(r => r[4])));
+    //   document.getElementById("day3cloud").innerHTML = formatDecimal(averageValues(day3values.map(r => r[6])));
+    //   document.getElementById("day3wind").innerHTML = formatDecimal(averageValues(day3values.map(r => r[7])));
+    //   document.getElementById("day3gusts").innerHTML = formatDecimal(averageValues(day3values.map(r => r[9])));
+    //   document.getElementById("day3direction").innerHTML = formatDecimal(averageValues(day3values.map(r => r[8])));
+    
+    // }
 
-      function createForecastItem(dailyArr, i) { //add Icon variable to function definition AND to the HTML code
-        const forecastItem = document.createElement("div");
-        forecastItem.className = "forecastItem";
-        forecastItem.id = dailyArr[i][0].split('T')[1];
-        forecastItem.innerHTML = `
-          <div class="forecastValue">${dailyArr[i][0].split('T')[1]}</div>
-          <div class="forecastIcon">Icon</div>
-          <div class="forecastValue">${dailyArr[i][3]}&deg;C</div>
-          <div class="forecastValue">${dailyArr[i][2]}%</div>
-          <div class="forecastValue">${dailyArr[i][7]}km/h</div>
-          <div class="forecastValue">${dailyArr[i][9]}km/h</div>
-          <div class="forecastValue">${dailyArr[i][8]}&deg;</div>
-        `;
-        return forecastItem;
-      }
+    // getAndSetForecast(forecastURL);
 
-      function setIcon(hourlyArr) {
+    function createForecastItem(dailyArr, i) { //add Icon variable to function definition AND to the HTML code
+      const forecastItem = document.createElement("div");
+      forecastItem.className = "forecastItem";
+      forecastItem.id = dailyArr[i][0].split('T')[1];
+      forecastItem.innerHTML = `
+        <div class="forecastValue">${dailyArr[i][0].split('T')[1]}</div>
+        <div class="forecastIcon">${dailyArr[i][11]}</div>
+        <div class="forecastValue">${dailyArr[i][3]}&deg;C</div>
+        <div class="forecastValue">${dailyArr[i][2]}%</div>
+        <div class="forecastValue">${dailyArr[i][7]}km/h</div>
+        <div class="forecastValue">${dailyArr[i][9]}km/h</div>
+        <div class="forecastValue">${dailyArr[i][8]}&deg;</div>
+      `;
+      return forecastItem;
+    }
+
+    function setIcon() {
         //Template for the element is: '<i class="wi wi-something-something"></i> => therefore icon returned = [iconBase1 + const + iconBase2]
         let iconBase1 = '<i class="wi ';
         let iconBase2 = '"></i>';
 
         //Day Icons
-        const daySunny = 'wi-day-sunny'; //full sun
-        const dayRain = 'wi-day-rain'; //normal/rough rain
-        const daySprinkle = 'wi-day-sprinkle'; //light rain
-        const dayCloudy = 'wi-day-cloudy'; //half-cloudy ((30% < X <75% cloud cover))
-        const dayOvercastCloudy = 'wi-day-sunny-overcast'; //mostly sunny (0% < X <30% cloud cover)
-        const dayCloudyWindy = 'wi-day-cloudy-gusts'; //half-cloudy with winds
-        const dayWindy = 'wi-day-windy'; //full sun with wind
-        const dayHot = 'wi-hot'; //very hot day
+        const daySunny = 'wi-day-sunny'; //full sun [isDay=1 & cloud_cover < 10%]
+        const dayRain = 'wi-day-rain'; //normal/rough rain [isDay=1 & precipitation > 2.5mm]
+        const daySprinkle = 'wi-day-sprinkle'; //light rain [isDay=1 & precipitation <= 2.5mm]
+        const dayCloudy = 'wi-day-cloudy'; //half-cloudy [isDay=1 & cloud_cover > 40% & cloud_cover < 70%]
+        const dayOvercastCloudy = 'wi-day-sunny-overcast'; //mostly sunny [isDay=1 & cloud_cover > 10% & cloud_cover < 40%]
+        const dayCloudyWindy = 'wi-day-cloudy-gusts'; //half-cloudy with winds [isDay=1 & cloud_cover > 40% & cloud_cover < 70% & wind_speed_10m > 15km/h]
+        const dayWindy = 'wi-day-windy'; //full sun with wind [isDay=1 & cloud_cover < 10% & wind_speed_10m > 15km/h]
+        const dayHot = 'wi-hot'; //very hot day [isDay=1 & temperature_2m > 30°C]
 
         //Night Icons
-        const nightClear = 'wi-night-clear'; //clear night (no clouds)
-        const nightRain = 'wi-night-alt-rain'; //normal/rough rain
-        const nightSprinkle = 'wi-night-alt-sprinkle'; //light rain
-        const nightCloudy = 'wi-night-alt-cloudy'; //half-cloudy night.
-        const nightCloudyWindy = 'wi-night-alt-cloudy-gusts'; //half-cloudy with winds
+        const nightClear = 'wi-night-clear'; //clear night (no clouds) [isDay=0 & cloud_cover < 10%]
+        const nightRain = 'wi-night-alt-rain'; //normal/rough rain [isDay=0 & precipitation > 2.5mm]
+        const nightSprinkle = 'wi-night-alt-sprinkle'; //light rain [isDay=0 & precipitation <= 2.5mm]
+        const nightCloudy = 'wi-night-alt-cloudy'; //half-cloudy night [isDay=0 & cloud_cover > 40% & cloud_cover < 70%]
+        const nightCloudyWindy = 'wi-night-alt-cloudy-gusts'; //half-cloudy with winds [isDay=0 & cloud_cover > 40% & cloud_cover < 70% & wind_speed_10m > 15km/h]
 
         //neutral Icons
-        const cloudy = 'wi-cloud'; //full cloud cover
-        const cloudyRain = 'wi-rain'; //raining and full cloud cover (heavy rain)
-        const cloudySprinkle = 'wi-sprinkle'; //sprinkle and full cloud cover (light rain)
-        const cloudyWindy = 'wi-cloudy-gusts'; //windy and full cloud cover
-        const windy = 'wi-strong-wind'; //strong winds
+        const cloudy = 'wi-cloud'; //full cloud cover [cloud_cover > 70%]
+        const cloudyRain = 'wi-rain'; //raining and full cloud cover (heavy rain) [cloud_cover > 70% & precipitation > 2.5mm]
+        const cloudySprinkle = 'wi-sprinkle'; //sprinkle and full cloud cover (light rain) [cloud_cover > 70% & precipitation <= 2.5mm]
+        const cloudyWindy = 'wi-cloudy-gusts'; //windy and full cloud cover [cloud_cover > 70% & wind_speed_10m > 15km/h]
+        const windy = 'wi-strong-wind'; //strong winds [wind_speed_10m > 25km/h]
         const sunrise = 'wi-sunrise'; //sunrise
         const sunset = 'wi-sunset'; //sunset
 
@@ -420,11 +434,106 @@
         const windlvl9 = 'wi-wind-beaufort-9'; //level 9 wind
         const windlvl10 = 'wi-wind-beaufort-10'; //level 10 wind
 
-        //Need to get the sunset and sunrise times
-        
+        //seting an icon for each hour and for each day within the dailyForecast array
+        for(let i = 0; i < 3; i++) {
+          for(let j = 0; j < 24; j++) {
+            if(dailyForecast[i][j][6] >= 70) { //full cloud cover
+              if(dailyForecast[i][j][4] > 2.5) { //raining and fully cloud cover
+                dailyForecast[i][j][11] = iconBase1+cloudyRain+iconBase2;
+                continue;
+              }
+              else if(dailyForecast[i][j][4] <= 2.5 && dailyForecast[i][j][4] > 0.1) { //light rain with fully cloud cover
+                dailyForecast[i][j][11] = iconBase1+cloudySprinkle+iconBase2;
+                continue;
+              }
+              else { //not raining, full cloud cover
+                if(dailyForecast[i][j][7] > 25) { //very windy, full cloud cover
+                  dailyForecast[i][j][11] = iconBase1+windy+iconBase2;
+                  continue;
+                }
+                else if(dailyForecast[i][j][7] > 15 && dailyForecast[i][j][7] <= 25){ //moderately windy, full cloud cover
+                  dailyForecast[i][j][11] = iconBase1+cloudyWindy+iconBase2;
+                  continue;
+                }
+                else { //low to no winds, full cloud cover
+                  dailyForecast[i][j][11] = iconBase1+cloudy+iconBase2;
+                  continue;
+                }
+              }
+            }
+            else { //not full cloud cover
+              if(dailyForecast[i][j][10] == 1) { //day
+                if(dailyForecast[i][j][3] > 30) { //very hot day
+                  dailyForecast[i][j][11] = iconBase1+dayHot+iconBase2;
+                  continue;
+                }
+                else { //not very hot day
+                  if(dailyForecast[i][j][4] > 2.5) { //heavy rain
+                    dailyForecast[i][j][11] = iconBase1+dayRain+iconBase2;
+                    continue;
+                  }
+                  else if(dailyForecast[i][j][4] <= 2.5 && dailyForecast[i][j][4] > 0.1){ //light rain
+                    dailyForecast[i][j][11] = iconBase1+daySprinkle+iconBase2;
+                    continue;
+                  }
+                  else { //no rain
+                    if(dailyForecast[i][j][6] >= 40 && dailyForecast[i][j][6] < 70) { //half-cloudy
+                      if(dailyForecast[i][j][7] > 15) { //windy
+                        dailyForecast[i][j][11] = iconBase1+dayCloudyWindy+iconBase2;
+                        continue;
+                      }
+                      else { //not windy
+                        dailyForecast[i][j][11] = iconBase1+dayCloudy+iconBase2;
+                        continue;
+                      }
+                    }
+                    else if(dailyForecast[i][j][6] >= 10 && dailyForecast[i][j][6] < 40) { //mostly sunny
+                      if(dailyForecast[i][j][7] > 15) { //windy
+                        dailyForecast[i][j][11] = iconBase1+dayWindy+iconBase2;
+                        continue;
+                      }
+                      else { //not windy
+                        dailyForecast[i][j][11] = iconBase1+dayOvercastCloudy+iconBase2;
+                        continue;
+                      }
+                    }
+                    else { //clear sky
+                      dailyForecast[i][j][11] = iconBase1+daySunny+iconBase2;
+                      continue;
+                    }
+                  }
+                }
+              }
+              else { //night
+                if(dailyForecast[i][j][4] > 2.5) { //heavy rain
+                  dailyForecast[i][j][11] = iconBase1+nightRain+iconBase2;
+                  continue;
+                }
+                else if(dailyForecast[i][j][4] <= 2.5 && dailyForecast[i][j][4] > 0.1) { //light rain
+                  dailyForecast[i][j][11] = iconBase1+nightSprinkle+iconBase2;
+                  continue;
+                }
+                else { //no rain
+                  if(dailyForecast[i][j][6] >= 40 && dailyForecast[i][j][6] < 70) { //half-cloudy
+                    if(dailyForecast[i][j][7] > 15) { //windy
+                      dailyForecast[i][j][11] = iconBase1+nightCloudyWindy+iconBase2;
+                      continue;
+                    }
+                    else { //not windy
+                      dailyForecast[i][j][11] = iconBase1+nightCloudy+iconBase2;
+                      continue;
+                    }
+                  }
+                  else { //clear sky
+                    dailyForecast[i][j][11] = iconBase1+nightClear+iconBase2;
+                    continue;
+                  }
+                }
+              }
+            }
+          }
+        }
       }
-
-      
 
     async function getForecast() {
       try{
@@ -447,6 +556,7 @@
             dailyForecast[0][i][7] = result.hourly.wind_speed_80m[i];
             dailyForecast[0][i][8] = result.hourly.wind_direction_80m[i];
             dailyForecast[0][i][9] = result.hourly.wind_gusts_10m[i];
+            dailyForecast[0][i][10] = result.hourly.is_day[i];
           }
           else if(i >= day2Begin && i <= day2End) { //Day 2
             dailyForecast[1][i-day2Begin][0] = result.hourly.time[i];
@@ -459,6 +569,7 @@
             dailyForecast[1][i-day2Begin][7] = result.hourly.wind_speed_80m[i];
             dailyForecast[1][i-day2Begin][8] = result.hourly.wind_direction_80m[i];
             dailyForecast[1][i-day2Begin][9] = result.hourly.wind_gusts_10m[i];
+            dailyForecast[1][i-day2Begin][10] = result.hourly.is_day[i];
           }
           else if(i >= day3Begin && i <= day3End) { //Day 3
             dailyForecast[2][i-day3Begin][0] = result.hourly.time[i];
@@ -471,14 +582,13 @@
             dailyForecast[2][i-day3Begin][7] = result.hourly.wind_speed_80m[i];
             dailyForecast[2][i-day3Begin][8] = result.hourly.wind_direction_80m[i];
             dailyForecast[2][i-day3Begin][9] = result.hourly.wind_gusts_10m[i];
+            dailyForecast[2][i-day3Begin][10] = result.hourly.is_day[i];
           }
         }
       }
       catch (error) {
         console.error(error.message);
       }
-
-      
     }
 
     window.setWeather = async function() {
@@ -516,7 +626,6 @@
     
 
   <div id="pastWeather">
-    Hello all!
     <div id="Day1Graph" style="width:100%;max-width:700px"></div>
   </div>
   
