@@ -320,27 +320,22 @@ h2 {
 
 .forecastItem {
   flex: 0 0 auto;
-  width: auto;
-  min-width: 90px;
+  width: 85px;
   background: var(--white);
-  padding: 12px 12px;
+  padding: 10px 8px;
   border-radius: 10px;
   text-align: center;
   box-shadow: var(--shadow);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
-}
-
-.forecastItem > div {
-  flex: 0 0 auto;
+  gap: 4px;
 }
 
 .forecastItem .forecastIcon {
-  font-size: 1.6rem;
-  margin: 0 5px;
+  font-size: 1.4rem;
+  margin: 2px 0;
 }
 
 .forecastItem .forecastValue:nth-child(1) {
