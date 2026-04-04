@@ -12,7 +12,7 @@
 <body>
   <div id="headline">
     <h1>Grow Tracker</h1>
-    <div id="notification">This is a notification
+    <div id="notification">
       <div id="windNotification">Wind Notification</div>
       <div id="tempNotification">Temp Notification</div>
     </div>
@@ -549,6 +549,21 @@
     <div id="DailyGraph" style="width:100%;max-width:1000px"></div>
   </div>
   
+  <gmp-map
+    center="38.7946,-106.5348"
+    zoom="4"
+    map-id="DEMO_MAP_ID"
+    style="height: 400px"
+  >
+  </gmp-map>
+  <!--
+    The `defer` attribute causes the script to execute after the full HTML
+    document has been parsed. -->
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDI5Hu9r2Xe-gWvSxJPwq8TRnRXOQ7R7TA&libraries=maps"
+    defer
+  ></script>
+
   <!-- Graph -->
   <!-- <script>
     const xArray = day1array[0];
