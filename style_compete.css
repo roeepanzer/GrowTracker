@@ -296,7 +296,7 @@ h2 {
 #forcast2 {
   display: flex;
   flex-direction: row;
-  overflow-x: auto;
+  overflow: auto;
   white-space: nowrap;
   padding: 12px;
   background: var(--light);
