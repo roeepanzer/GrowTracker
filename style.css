@@ -32,14 +32,14 @@ h1 {
   border-radius: 15px;
 }
 
-#forcast {
+/* #forcast {
   display: flex;
   flex-direction: row;
   gap: 1%;
   padding: 10px;
   border: 2px solid black;
   border-radius: 15px;
-}
+} */
 
 #forcast2 {
   overflow: auto;
