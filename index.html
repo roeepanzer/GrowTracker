@@ -617,7 +617,7 @@
         snapshot.forEach((childSnapshot) => {
           const epochKey = childSnapshot.key;
           const date = new Date(Number(epochKey) * 1000).toISOString().split('T')[0];
-          deltaEpoch = parseInt(epochKey)-parseInt(lastEpoch);
+          let deltaEpoch = parseInt(epochKey)-parseInt(lastEpoch);
 
           if(date==chosenDate){
             // lightSum += childSnapshot.val().lightConverted * 1800; //currently multiplying by 30 minutes (based on basic definition of saving every 30 mins)
