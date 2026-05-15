@@ -610,17 +610,21 @@
     window.getLightAmount = async function () {
       let lightSum = 0;
       const chosenDate = document.getElementById("inputDate").value;
-
       const snapshot = await get(ref(db, 'historyData'));
+      lastEpoch = 1770909963;
 
       if(snapshot.exists()) {
         snapshot.forEach((childSnapshot) => {
           const epochKey = childSnapshot.key;
           const date = new Date(Number(epochKey) * 1000).toISOString().split('T')[0];
+          deltaEpoch = epochKey-lastEpoch;
 
           if(date==chosenDate){
-            lightSum += childSnapshot.val().lightConverted * 1800;
+            // lightSum += childSnapshot.val().lightConverted * 1800; //currently multiplying by 30 minutes (based on basic definition of saving every 30 mins)
+            //Add here a logic of calculating the lightAmount based on change in Epoch
+            lightSum += childSnapshot.val().lightConverted * deltaEpoch;
           }
+          lastEpoch = childSnapshot.key;
         });
       }
 
