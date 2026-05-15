@@ -611,7 +611,7 @@
       let lightSum = 0;
       const chosenDate = document.getElementById("inputDate").value;
       const snapshot = await get(ref(db, 'historyData'));
-      lastEpoch = 1770909963;
+      let lastEpoch = 1770909963;
 
       if(snapshot.exists()) {
         snapshot.forEach((childSnapshot) => {
