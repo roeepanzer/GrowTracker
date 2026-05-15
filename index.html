@@ -629,7 +629,7 @@
       }
 
       document.getElementById("chosenDate").innerText = chosenDate;
-      document.getElementById("lightAmountVal").innerText = Math.round(lightSum * 100)/100000000; 
+      document.getElementById("lightAmountVal").innerText = Math.round(lightSum/1000000 * 100)/100; 
     }
 
     async function liveHumid() {
