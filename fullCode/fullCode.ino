@@ -66,6 +66,7 @@ void setup() {
   digitalWrite(yLEDpin, LOW);
   digitalWrite(rLEDpin, LOW);
   digitalWrite(gLEDpin, LOW);
+  digitalWrite(2, LOW);
 
   WiFiStart();
   checkTimeIsLive();

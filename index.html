@@ -546,23 +546,50 @@
     
 
   <div id="pastWeather">
+    <input type="date" id="inputDateGraph">
     <div id="DailyGraph" style="width:100%;max-width:1000px"></div>
   </div>
   
 
   <!-- Graph -->
-  <!-- <script>
-    const xArray = day1array[0];
-    const yArray = day1array[1];
+  <script>
+    window.getGraphData = async function() {
+      const chosenDate = document.getElementById("inputDateGraph").value;
+      const snapshot = await get(ref(db, 'historyData'));
+      if(snapshot.exists()) {
+        snapshot.forEach((childSnapshot) => {
+          const epochKey = childSnapshot.key;
+          const date = new Date(Number(epochKey) * 1000).toISOString().split('T')[0];
+          if(date == chosenDate) {
+            const time = new Date(Number(epochKey) * 1000).toISOString().split('T')[1];
+            const temp = childSnapshot.val().temp;
+            const humid = childSnapshot.val().humidity;
+            xTime.push(time);
+            yTemp.push(temp);
+            yHumid.push(humid);
+          }
+        });
+        return date;
+      }
+      else {
+        console.error("No data found");
+      }
+    }
+    const xTime = []; //time in hh:mm converted from epoch to hh:mm
+    const yTemp = []; //temp gathered from the chosen date
+    const yHumid = []; //humidity gathered from the chosen date
 
-    const data = [{x: xArray, y: yArray, mode: "lines"}];
+    const data = [{x: xTime, y: yTemp, mode: "lines"}, 
+                  {x: xTime, y: yHumid, mode: "lines"}];
     const layout = {
       xaxis: {range: [0,24], title: "Time of the day"},
-      yaxis: {range: [0,40], title: "Temperature"}
+      yaxis: {range: [0,30], title: "Temperature"},
+      yaxis: {range: [20,100], title: "Humidity"}
     };
+    const dateGraph = await getGraphData();
 
-    Plotly.newPlot("Day1Graph", data, layout);
-  </script> -->
+    Plotly.newPlot("DailyGraph", data, layout);
+  </script>
 
 
   <script type="module">
