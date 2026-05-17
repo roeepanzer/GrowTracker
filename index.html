@@ -612,16 +612,17 @@
       const xTime = []; //time in hh:mm converted from epoch to hh:mm
       const yTemp = []; //temp gathered from the chosen date
       const yHumid = []; //humidity gathered from the chosen date
-      
+
       if(snapshot.exists()) {
         snapshot.forEach((childSnapshot) => {
           const epochKey = childSnapshot.key;
           const date = new Date(Number(epochKey) * 1000).toISOString().split('T')[0];
           if(date == chosenDate) {
-            const time = new Date(Number(epochKey) * 1000).toISOString().split('T')[1];
+            const timeHour = new Date(Number(epochKey) * 1000).toISOString().split('T')[1].split(':')[0];
+            const timeMinute = new Date(Number(epochKey) * 1000).toISOString().split('T')[1].split(':')[1];
             const temp = childSnapshot.val().temp;
             const humid = childSnapshot.val().humidity;
-            xTime.push(time);
+            xTime.push(timeHour + ":" + timeMinute);
             yTemp.push(temp);
             yHumid.push(humid);
           }
@@ -635,8 +636,7 @@
                     {x: xTime, y: yHumid, mode: "lines"}];
       const layout = {
         xaxis: {range: [0,24], title: "Time of the day"},
-        yaxis: {range: [0,30], title: "Temperature"},
-        yaxis: {range: [20,100], title: "Humidity"}
+        yaxis: {range: [0,100]}
       };
 
       Plotly.newPlot("DailyGraph", data, layout);
