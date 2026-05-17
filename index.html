@@ -554,28 +554,7 @@
 
   <!-- Graph -->
   <script>
-    window.getGraphData = async function() {
-      const chosenDate = document.getElementById("inputDateGraph").value;
-      const snapshot = await get(ref(db, 'historyData'));
-      if(snapshot.exists()) {
-        snapshot.forEach((childSnapshot) => {
-          const epochKey = childSnapshot.key;
-          const date = new Date(Number(epochKey) * 1000).toISOString().split('T')[0];
-          if(date == chosenDate) {
-            const time = new Date(Number(epochKey) * 1000).toISOString().split('T')[1];
-            const temp = childSnapshot.val().temp;
-            const humid = childSnapshot.val().humidity;
-            xTime.push(time);
-            yTemp.push(temp);
-            yHumid.push(humid);
-          }
-        });
-        return date;
-      }
-      else {
-        console.error("No data found");
-      }
-    }
+    
 
     const xTime = []; //time in hh:mm converted from epoch to hh:mm
     const yTemp = []; //temp gathered from the chosen date
@@ -639,6 +618,28 @@
     );
     document.getElementById("inputDate").setAttribute("value", new Date().toJSON().split('T')[0]);
     
+    window.getGraphData = async function() {
+      const chosenDate = document.getElementById("inputDateGraph").value;
+      const snapshot = await get(ref(db, 'historyData'));
+      if(snapshot.exists()) {
+        snapshot.forEach((childSnapshot) => {
+          const epochKey = childSnapshot.key;
+          const date = new Date(Number(epochKey) * 1000).toISOString().split('T')[0];
+          if(date == chosenDate) {
+            const time = new Date(Number(epochKey) * 1000).toISOString().split('T')[1];
+            const temp = childSnapshot.val().temp;
+            const humid = childSnapshot.val().humidity;
+            xTime.push(time);
+            yTemp.push(temp);
+            yHumid.push(humid);
+          }
+        });
+        return date;
+      }
+      else {
+        console.error("No data found");
+      }
+    }
 
     window.getLightAmount = async function () {
       let lightSum = 0;
