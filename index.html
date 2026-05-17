@@ -550,19 +550,6 @@
     <button onclick="getGraphData()">Get Graph</button>
     <div id="DailyGraph" style="width:100%;max-width:1000px"></div>
   </div>
-  
-
-  <!-- Graph -->
-  <script>
-    
-
-    
-
-    window.getGraph = async function() { 
-      
-    }
-    // document.getElementById("inputDateGraph").addEventListener("click", getGraph);
-  </script>
 
 
   <script type="module">
@@ -608,6 +595,7 @@
     
     window.getGraphData = async function() {
       const chosenDate = document.getElementById("inputDateGraph").value;
+      document.getElementById("inputDateGraph").setAttribute("value", new Date().toJSON().split('T')[0]);
       const snapshot = await get(ref(db, 'historyData'));
       const xTime = []; //time in hh:mm converted from epoch to hh:mm
       const yTemp = []; //temp gathered from the chosen date
