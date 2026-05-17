@@ -592,10 +592,10 @@
       }
     );
     document.getElementById("inputDate").setAttribute("value", new Date().toJSON().split('T')[0]);
+    document.getElementById("inputDateGraph").setAttribute("value", new Date().toJSON().split('T')[0]);
     
     window.getGraphData = async function() {
       const chosenDate = document.getElementById("inputDateGraph").value;
-      document.getElementById("inputDateGraph").setAttribute("value", new Date().toJSON().split('T')[0]);
       const snapshot = await get(ref(db, 'historyData'));
       const xTime = []; //time in hh:mm converted from epoch to hh:mm
       const yTemp = []; //temp gathered from the chosen date
