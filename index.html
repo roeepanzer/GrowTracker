@@ -619,11 +619,11 @@
           const date = new Date(Number(epochKey) * 1000).toISOString().split('T')[0];
           if(date == chosenDate) {
             const timeHour = new Date(Number(epochKey) * 1000).toISOString().split('T')[1].split(':')[0];
-            timeHour = parseInt(timeHour)+2;
+            let localTimeHour = parseInt(timeHour)+2;
             const timeMinute = new Date(Number(epochKey) * 1000).toISOString().split('T')[1].split(':')[1];
             const temp = childSnapshot.val().temp;
             const humid = childSnapshot.val().humidity;
-            xTime.push(timeHour.toString() + ":" + timeMinute);
+            xTime.push(localTimeHour.toString() + ":" + timeMinute);
             yTemp.push(temp);
             yHumid.push(humid);
           }
