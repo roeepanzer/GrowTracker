@@ -547,7 +547,7 @@
 
   <div id="pastWeather">
     <input type="date" id="inputDateGraph" min="2026-02-12">
-    <button onclick="getGraph()">Get Graph</button>
+    <button onclick="getGraphData()">Get Graph</button>
     <div id="DailyGraph" style="width:100%;max-width:1000px"></div>
   </div>
   
@@ -556,24 +556,12 @@
   <script>
     
 
-    const xTime = []; //time in hh:mm converted from epoch to hh:mm
-    const yTemp = []; //temp gathered from the chosen date
-    const yHumid = []; //humidity gathered from the chosen date
+    
 
     window.getGraph = async function() { 
-      const dateGraph = await getGraphData();
       
-      const data = [{x: xTime, y: yTemp, mode: "lines"}, 
-                    {x: xTime, y: yHumid, mode: "lines"}];
-      const layout = {
-        xaxis: {range: [0,24], title: "Time of the day"},
-        yaxis: {range: [0,30], title: "Temperature"},
-        yaxis: {range: [20,100], title: "Humidity"}
-      };
-
-      Plotly.newPlot("DailyGraph", data, layout);
     }
-    document.getElementById("inputDateGraph").addEventListener("click", getGraph);
+    // document.getElementById("inputDateGraph").addEventListener("click", getGraph);
   </script>
 
 
@@ -619,15 +607,17 @@
     document.getElementById("inputDate").setAttribute("value", new Date().toJSON().split('T')[0]);
     
     window.getGraphData = async function() {
-      let dateTod;
       const chosenDate = document.getElementById("inputDateGraph").value;
       const snapshot = await get(ref(db, 'historyData'));
+      const xTime = []; //time in hh:mm converted from epoch to hh:mm
+      const yTemp = []; //temp gathered from the chosen date
+      const yHumid = []; //humidity gathered from the chosen date
+      
       if(snapshot.exists()) {
         snapshot.forEach((childSnapshot) => {
           const epochKey = childSnapshot.key;
           const date = new Date(Number(epochKey) * 1000).toISOString().split('T')[0];
           if(date == chosenDate) {
-            dateTod = date;
             const time = new Date(Number(epochKey) * 1000).toISOString().split('T')[1];
             const temp = childSnapshot.val().temp;
             const humid = childSnapshot.val().humidity;
@@ -636,11 +626,20 @@
             yHumid.push(humid);
           }
         });
-        return dateTod;
       }
       else {
         console.error("No data found");
       }
+      
+      const data = [{x: xTime, y: yTemp, mode: "lines"}, 
+                    {x: xTime, y: yHumid, mode: "lines"}];
+      const layout = {
+        xaxis: {range: [0,24], title: "Time of the day"},
+        yaxis: {range: [0,30], title: "Temperature"},
+        yaxis: {range: [20,100], title: "Humidity"}
+      };
+
+      Plotly.newPlot("DailyGraph", data, layout);
     }
 
     window.getLightAmount = async function () {
