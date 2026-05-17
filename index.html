@@ -619,6 +619,7 @@
     document.getElementById("inputDate").setAttribute("value", new Date().toJSON().split('T')[0]);
     
     window.getGraphData = async function() {
+      let dateTod;
       const chosenDate = document.getElementById("inputDateGraph").value;
       const snapshot = await get(ref(db, 'historyData'));
       if(snapshot.exists()) {
@@ -626,6 +627,7 @@
           const epochKey = childSnapshot.key;
           const date = new Date(Number(epochKey) * 1000).toISOString().split('T')[0];
           if(date == chosenDate) {
+            dateTod = date;
             const time = new Date(Number(epochKey) * 1000).toISOString().split('T')[1];
             const temp = childSnapshot.val().temp;
             const humid = childSnapshot.val().humidity;
@@ -634,7 +636,7 @@
             yHumid.push(humid);
           }
         });
-        return date;
+        return dateTod;
       }
       else {
         console.error("No data found");
