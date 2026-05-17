@@ -21,7 +21,9 @@
 
 //Defining pins of the components
 #define DHTpin 17
-#define LEDpin 16
+#define yLEDpin 16
+#define gLEDpin 18
+#define rLEDpin 5
 
 void processData(AsyncResult &aResult);
 UserAuth user_auth(apiKey, user_email, user_pass);
@@ -58,7 +60,12 @@ const unsigned long WIFI_CONNECT_TIMEOUT_MS = 15000; // 15 sec per attempt
 
 void setup() {
   Serial.begin(115200);
-  pinMode(LEDpin, OUTPUT);
+  pinMode(yLEDpin, OUTPUT);
+  pinMode(rLEDpin, OUTPUT);
+  pinMode(gLEDpin, OUTPUT);
+  digitalWrite(yLEDpin, LOW);
+  digitalWrite(rLEDpin, LOW);
+  digitalWrite(gLEDpin, LOW);
 
   WiFiStart();
   checkTimeIsLive();
@@ -134,10 +141,10 @@ void WiFiReset() {
   delay(500);
   WiFi.reconnect();
 
-  while (WiFi.status() != WL_CONNECTED) {
-    digitalWrite(LEDpin, HIGH);
+  while (WiFi.status() != WL_CONNECTED) { //Wifi isn't connected - blinking slowly
+    digitalWrite(yLEDpin, HIGH);
     delay(500);
-    digitalWrite(LEDpin, LOW);
+    digitalWrite(yLEDpin, LOW);
     delay(500);
     Serial.print(".");
   }
@@ -178,10 +185,10 @@ void checkTimeIsLive()
   if (rtc.getYear() > 2020) {
     timeInitialized = true;
   } else {
-    for(int j=0; j<30; j++){
-      digitalWrite(LEDpin, HIGH);
+    for(int j=0; j<30; j++){ //Time isn't updated and isn't live.
+      digitalWrite(yLEDpin, HIGH);
       delay(50);
-      digitalWrite(LEDpin, LOW);
+      digitalWrite(yLEDpin, LOW);
       delay(50);
     }
   }
@@ -190,10 +197,10 @@ void checkTimeIsLive()
 bool waitForWiFi(unsigned long timeoutMs)
 {
   unsigned long start = millis();
-  while (WiFi.status() != WL_CONNECTED && (millis() - start) < timeoutMs) {
-    digitalWrite(LEDpin, HIGH);
+  while (WiFi.status() != WL_CONNECTED && (millis() - start) < timeoutMs) { //wifi isn't connected
+    digitalWrite(yLEDpin, HIGH);
     delay(150);
-    digitalWrite(LEDpin, LOW);
+    digitalWrite(yLEDpin, LOW);
     delay(150);
     Serial.print(".");
   }
